@@ -29,50 +29,54 @@ export default async function DebugPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 p-8">
+        <div className="min-h-screen bg-muted/20 p-8">
             <div className="max-w-4xl mx-auto">
-                <h1 className="text-3xl font-bold mb-8">Debug Information</h1>
+                <h1 className="text-3xl font-bold tracking-tight mb-8">Debug Information</h1>
 
-                <div className="bg-white rounded-lg shadow p-6 mb-6">
-                    <h2 className="text-xl font-bold mb-4">User Information</h2>
-                    <pre className="bg-gray-100 p-4 rounded overflow-auto">
+                <div className="bg-card rounded-xl border border-border shadow-sm p-6 mb-6">
+                    <h2 className="text-xl font-bold tracking-tight mb-4">User Information</h2>
+                    <pre className="bg-muted p-4 rounded-lg overflow-auto text-xs font-mono border border-border">
                         {JSON.stringify(user, null, 2)}
                     </pre>
                 </div>
 
-                <div className="bg-white rounded-lg shadow p-6 mb-6">
-                    <h2 className="text-xl font-bold mb-4">Profile Information</h2>
+                <div className="bg-card rounded-xl border border-border shadow-sm p-6 mb-6">
+                    <h2 className="text-xl font-bold tracking-tight mb-4">Profile Information</h2>
                     {error && (
-                        <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded mb-4">
+                        <div className="bg-destructive/10 border border-destructive/20 text-destructive p-4 rounded-lg mb-4 text-sm font-medium">
                             Error: {error}
                         </div>
                     )}
                     {profile ? (
-                        <pre className="bg-gray-100 p-4 rounded overflow-auto">
+                        <pre className="bg-muted p-4 rounded-lg overflow-auto text-xs font-mono border border-border">
                             {JSON.stringify(profile, null, 2)}
                         </pre>
                     ) : (
-                        <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 p-4 rounded">
+                        <div className="bg-yellow-50/50 border border-yellow-200/50 text-yellow-800 p-4 rounded-lg text-sm font-medium">
                             No profile found for user ID: {user.$id}
                         </div>
                     )}
                 </div>
 
-                <div className="bg-white rounded-lg shadow p-6">
-                    <h2 className="text-xl font-bold mb-4">Environment Variables</h2>
-                    <div className="space-y-2">
-                        <p>
-                            <strong>Database ID:</strong> {DATABASE_ID || "NOT SET"}
-                        </p>
-                        <p>
-                            <strong>Collection ID:</strong> {COLLECTION_PROFILES_ID || "NOT SET"}
-                        </p>
-                        <p>
-                            <strong>Endpoint:</strong> {process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "NOT SET"}
-                        </p>
-                        <p>
-                            <strong>Project ID:</strong> {process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "NOT SET"}
-                        </p>
+                <div className="bg-card rounded-xl border border-border shadow-sm p-6">
+                    <h2 className="text-xl font-bold tracking-tight mb-4">Environment Variables</h2>
+                    <div className="space-y-3 text-sm">
+                        <div className="flex items-center justify-between p-2 bg-muted/30 rounded border border-border/50">
+                            <span className="font-medium text-muted-foreground">Database ID</span>
+                            <code className="bg-background px-2 py-0.5 rounded border border-input font-mono text-xs">{DATABASE_ID || "NOT SET"}</code>
+                        </div>
+                        <div className="flex items-center justify-between p-2 bg-muted/30 rounded border border-border/50">
+                            <span className="font-medium text-muted-foreground">Collection ID</span>
+                            <code className="bg-background px-2 py-0.5 rounded border border-input font-mono text-xs">{COLLECTION_PROFILES_ID || "NOT SET"}</code>
+                        </div>
+                        <div className="flex items-center justify-between p-2 bg-muted/30 rounded border border-border/50">
+                            <span className="font-medium text-muted-foreground">Endpoint</span>
+                            <code className="bg-background px-2 py-0.5 rounded border border-input font-mono text-xs">{process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || "NOT SET"}</code>
+                        </div>
+                        <div className="flex items-center justify-between p-2 bg-muted/30 rounded border border-border/50">
+                            <span className="font-medium text-muted-foreground">Project ID</span>
+                            <code className="bg-background px-2 py-0.5 rounded border border-input font-mono text-xs">{process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || "NOT SET"}</code>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -12,136 +12,135 @@ export default async function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b sticky top-0 z-10">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-indigo-600">TVET Swap Kenya</h1>
+      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto px-4 h-16 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <Users className="w-5 h-5 text-primary-foreground" />
+            </div>
+            <h1 className="text-xl font-bold tracking-tight">TVET Swap</h1>
+          </div>
           <Link
             href="/login"
-            className="flex items-center gap-2 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
           >
-            <LogIn className="w-4 h-4" />
+            <LogIn className="w-4 h-4 mr-2" />
             Login
           </Link>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <main className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="mb-8">
-            <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Users className="w-10 h-10 text-indigo-600" />
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
+          <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center mx-auto px-4">
+            <div className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium text-muted-foreground">
+              The Official Mutual Transfer Platform
             </div>
-            <h2 className="text-5xl font-bold text-gray-900 mb-6">
-              TVET Trainers Mutual Transfer Platform
+            <h1 className="font-bold text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tighter">
+              Connect with TVET Trainers <br className="hidden sm:inline" />
+              Across Kenya
+            </h1>
+            <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
+              Find mutual transfer opportunities, connect with colleagues, and manage your career growth in a secure, verified environment.
+            </p>
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <Link
+                href="/login"
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-11 px-8"
+              >
+                Get Started
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+              <Link
+                href="#how-it-works"
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-11 px-8"
+              >
+                Learn More
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Grid */}
+        <section className="container space-y-6 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24 mx-auto px-4">
+          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
+            <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+              <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
+                <Users className="h-12 w-12 text-primary" />
+                <div className="space-y-2">
+                  <h3 className="font-bold">Find Matches</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Browse trainers teaching the same courses looking for mutual transfers in your desired location.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+              <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
+                <div className="h-12 w-12 flex items-center justify-center rounded-full bg-primary/10">
+                  <LogIn className="h-6 w-6 text-primary" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-bold">Secure Access</h3>
+                  <p className="text-sm text-muted-foreground">
+                    A protected platform accessible only to verified TVET trainers and administrators.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="relative overflow-hidden rounded-lg border bg-background p-2">
+              <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
+                <div className="h-12 w-12 flex items-center justify-center rounded-full bg-primary/10">
+                  <ArrowRight className="h-6 w-6 text-primary" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-bold">Easy Process</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Simple interface to indicate availability and connect with potential matches directly.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* How It Works */}
+        <section id="how-it-works" className="container py-8 md:py-12 lg:py-24 mx-auto px-4">
+          <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
+            <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
+              How It Works
             </h2>
-            <p className="text-xl text-gray-600 mb-8">
-              Connect with fellow TVET trainers across Kenya to find mutual transfer opportunities
+            <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
+              Your journey to a new station in 4 simple steps.
             </p>
           </div>
-
-          {/* Login CTA */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 mb-12">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Access Your Account</h3>
-            <p className="text-gray-600 mb-6">
-              Login to view available trainers and manage your transfer preferences
-            </p>
-            <Link
-              href="/login"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-lg font-semibold"
-            >
-              Login to Continue
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <p className="text-sm text-gray-500 mt-4">
-              Don't have an account? Contact your administrator to get access.
-            </p>
+          <div className="mx-auto grid justify-center gap-8 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-4 mt-12">
+            {[
+              { step: 1, title: "Login", desc: "Access your account with admin-provided credentials" },
+              { step: 2, title: "Set Preferences", desc: "Indicate you're open to transfer and specify locations" },
+              { step: 3, title: "Browse", desc: "Search for trainers in your desired counties" },
+              { step: 4, title: "Connect", desc: "Contact matches to arrange mutual transfers" }
+            ].map((item) => (
+              <div key={item.step} className="flex flex-col items-center text-center space-y-4">
+                <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xl font-bold shadow-lg ring-4 ring-background">
+                  {item.step}
+                </div>
+                <h3 className="font-bold text-xl">{item.title}</h3>
+                <p className="text-sm text-muted-foreground">{item.desc}</p>
+              </div>
+            ))}
           </div>
-
-          {/* Features */}
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <Users className="w-6 h-6 text-green-600" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Find Matches</h3>
-              <p className="text-gray-600 text-sm">
-                Browse trainers teaching the same courses looking for mutual transfers
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <LogIn className="w-6 h-6 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Secure Access</h3>
-              <p className="text-gray-600 text-sm">
-                Protected platform accessible only to verified TVET trainers
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <ArrowRight className="w-6 h-6 text-purple-600" />
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Easy Process</h3>
-              <p className="text-gray-600 text-sm">
-                Simple interface to indicate availability and connect with potential matches
-              </p>
-            </div>
-          </div>
-
-          {/* How It Works */}
-          <div className="bg-white rounded-2xl shadow-xl p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">How It Works</h3>
-            <div className="grid md:grid-cols-4 gap-6 text-left">
-              <div>
-                <div className="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold mb-3">
-                  1
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-2">Login</h4>
-                <p className="text-sm text-gray-600">
-                  Access your account with credentials provided by your administrator
-                </p>
-              </div>
-              <div>
-                <div className="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold mb-3">
-                  2
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-2">Set Preferences</h4>
-                <p className="text-sm text-gray-600">
-                  Indicate you're open to transfer and specify desired locations
-                </p>
-              </div>
-              <div>
-                <div className="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold mb-3">
-                  3
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-2">Browse Trainers</h4>
-                <p className="text-sm text-gray-600">
-                  Search for trainers in your desired counties teaching similar courses
-                </p>
-              </div>
-              <div>
-                <div className="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold mb-3">
-                  4
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-2">Connect</h4>
-                <p className="text-sm text-gray-600">
-                  Contact potential matches directly to arrange mutual transfers
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-white border-t mt-16">
-        <div className="container mx-auto px-4 py-6 text-center text-gray-600">
-          <p>&copy; 2024 TVET Swap Kenya. All rights reserved.</p>
+      <footer className="border-t py-6 md:py-0">
+        <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row mx-auto px-4">
+          <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
+            &copy; 2024 TVET Swap Kenya. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>
