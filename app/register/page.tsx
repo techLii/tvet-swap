@@ -3,14 +3,16 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { login } from "@/lib/actions/auth";
-import { LogIn } from "lucide-react";
+import { register } from "@/lib/actions/auth";
+import { UserPlus } from "lucide-react";
 
-export default function LoginPage() {
+export default function RegisterPage() {
     const router = useRouter();
     const [formData, setFormData] = useState({
+        name: "",
         email: "",
         password: "",
+        confirmPassword: "",
     });
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -18,15 +20,25 @@ export default function LoginPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
+
+        if (formData.password !== formData.confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+
         setLoading(true);
 
-        const result = await login(formData);
+        const result = await register({
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+        });
 
         if (result.success) {
-            router.push("/dashboard");
+            router.push("/create-profile");
             router.refresh();
         } else {
-            setError(result.error || "Login failed. Please check your credentials.");
+            setError(result.error || "Registration failed. Please try again.");
             setLoading(false);
         }
     };
@@ -37,10 +49,10 @@ export default function LoginPage() {
                 <div className="bg-card text-card-foreground rounded-xl border border-border shadow-sm p-8">
                     <div className="text-center mb-8">
                         <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                            <LogIn className="w-6 h-6 text-primary" />
+                            <UserPlus className="w-6 h-6 text-primary" />
                         </div>
-                        <h1 className="text-2xl font-bold tracking-tight">Welcome Back</h1>
-                        <p className="text-muted-foreground mt-2 text-sm">Login to access the TVET Swap platform</p>
+                        <h1 className="text-2xl font-bold tracking-tight">Create Account</h1>
+                        <p className="text-muted-foreground mt-2 text-sm">Join the TVET Swap platform today</p>
                     </div>
 
                     {error && (
@@ -50,6 +62,21 @@ export default function LoginPage() {
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-5">
+                        <div className="space-y-2">
+                            <label htmlFor="name" className="block text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                Full Name
+                            </label>
+                            <input
+                                type="text"
+                                id="name"
+                                required
+                                value={formData.name}
+                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-foreground"
+                                placeholder="John Doe"
+                            />
+                        </div>
+
                         <div className="space-y-2">
                             <label htmlFor="email" className="block text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                                 Email Address
@@ -73,8 +100,25 @@ export default function LoginPage() {
                                 type="password"
                                 id="password"
                                 required
+                                minLength={8}
                                 value={formData.password}
                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-foreground"
+                                placeholder="••••••••"
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <label htmlFor="confirmPassword" className="block text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                Confirm Password
+                            </label>
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                required
+                                minLength={8}
+                                value={formData.confirmPassword}
+                                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-foreground"
                                 placeholder="••••••••"
                             />
@@ -85,15 +129,15 @@ export default function LoginPage() {
                             disabled={loading}
                             className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
                         >
-                            {loading ? "Logging in..." : "Sign In"}
+                            {loading ? "Creating Account..." : "Sign Up"}
                         </button>
                     </form>
 
                     <div className="mt-6 text-center">
                         <p className="text-xs text-muted-foreground">
-                            Don't have an account?{" "}
-                            <Link href="/register" className="text-primary hover:underline font-medium">
-                                Sign up
+                            Already have an account?{" "}
+                            <Link href="/login" className="text-primary hover:underline font-medium">
+                                Sign in
                             </Link>
                         </p>
                     </div>

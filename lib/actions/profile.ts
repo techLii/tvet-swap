@@ -1,15 +1,50 @@
 "use server";
 
 import { createSessionClient, createAdminClient, DATABASE_ID, COLLECTION_PROFILES_ID } from "@/lib/appwrite";
-import { Profile } from "@/types";
-import { Query } from "node-appwrite";
+import { Profile, CreateProfileFormData } from "@/types";
+import { Query, ID } from "node-appwrite";
+
+export async function createProfile(data: CreateProfileFormData) {
+    try {
+        const { databases, account } = await createSessionClient();
+        const user = await account.get();
+
+        const courseQualified = [data.subject1, data.subject2];
+        if (data.subject3) courseQualified.push(data.subject3);
+
+        const profileData = {
+            userId: user.$id,
+            fullName: data.fullName,
+            idNumber: data.idNumber,
+            phone: data.phone,
+            tscNumber: data.tscNumber,
+            currentInstitution: data.currentInstitution,
+            currentCounty: data.currentCounty,
+            currentSubCounty: data.currentSubCounty,
+            courseQualified: courseQualified,
+            yearsOfExperience: data.yearsOfExperience,
+            isOpenToSwap: data.isOpenToSwap,
+            desiredCounties: data.desiredCounties,
+            desiredInstitutions: data.desiredInstitutions,
+            availabilityDate: data.availabilityDate,
+        };
+
+        const newProfile = await databases.createDocument(
+            DATABASE_ID,
+            COLLECTION_PROFILES_ID,
+            ID.unique(),
+            profileData
+        );
+
+        return { success: true, profile: newProfile };
+    } catch (error: any) {
+        console.error("Create profile error:", error);
+        return { success: false, error: error.message };
+    }
+}
 
 export async function getProfile(userId: string) {
     try {
-        console.log("Getting profile for userId:", userId);
-        console.log("Database ID:", DATABASE_ID);
-        console.log("Collection ID:", COLLECTION_PROFILES_ID);
-
         const { databases } = await createSessionClient();
 
         const response = await databases.listDocuments(
@@ -18,17 +53,10 @@ export async function getProfile(userId: string) {
             [Query.equal("userId", userId)]
         );
 
-        console.log("Profile query response:", {
-            total: response.total,
-            documentsCount: response.documents.length,
-        });
-
         if (response.documents.length === 0) {
-            console.log("No profile found for userId:", userId);
             return null;
         }
 
-        console.log("Profile found:", response.documents[0].$id);
         return response.documents[0] as unknown as Profile;
     } catch (error: any) {
         console.error("Get profile error:", error);
