@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "TVET Swap",
-  description: "Find mutual transfer opportunities, connect with colleagues, and manage your career growth in a secure, verified environment.",
+  description: "Find mutual transfer opportunities.",
 };
 
 export default function RootLayout({
