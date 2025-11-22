@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "TVET Swap",
   description: "Find mutual transfer opportunities.",
+  openGraph: {
+    title: "TVET Swap",
+    description: "Find mutual transfer opportunities.",
+    images: ["/users.png"], // path from public/
+  },
 };
 
 export default function RootLayout({
