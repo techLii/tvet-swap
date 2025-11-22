@@ -18,9 +18,19 @@ export const metadata: Metadata = {
   openGraph: {
     title: "TVET Swap",
     description: "Find mutual transfer opportunities.",
-    images: ["/users.png"], // path from public/
+    images: ["/swap.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TVET Swap",
+    description: "Find mutual transfer opportunities.",
+    images: ["/swap.png"],
+  },
+  icons: {
+    icon: "/favicon.ico",
   },
 };
+
 
 export default function RootLayout({
   children,
