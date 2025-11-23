@@ -21,6 +21,7 @@ import {
     LogOut,
     Users
 } from "lucide-react";
+import DocumentDownloads from "./DocumentDownloads";
 import { useRouter } from "next/navigation";
 
 interface DashboardClientProps {
@@ -179,8 +180,8 @@ export default function DashboardClient({ user, profile }: DashboardClientProps)
                                 <div className="flex items-center justify-between">
                                     <span className="text-sm font-medium">Swap Status</span>
                                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${formData.isOpenToSwap
-                                            ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-                                            : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
+                                        ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                                        : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
                                         }`}>
                                         {formData.isOpenToSwap ? "Active" : "Paused"}
                                     </span>
@@ -198,6 +199,9 @@ export default function DashboardClient({ user, profile }: DashboardClientProps)
                                 No new notifications.
                             </div>
                         </div>
+
+                        {/* Document Downloads */}
+                        <DocumentDownloads />
                     </div>
 
                     {/* Right Column: Edit Form */}
@@ -216,8 +220,8 @@ export default function DashboardClient({ user, profile }: DashboardClientProps)
                             <div className="p-6 space-y-8">
                                 {message && (
                                     <div className={`p-4 rounded-lg flex items-center gap-2 text-sm ${message.type === "success"
-                                            ? "bg-green-50 text-green-900 border border-green-200"
-                                            : "bg-red-50 text-red-900 border border-red-200"
+                                        ? "bg-green-50 text-green-900 border border-green-200"
+                                        : "bg-red-50 text-red-900 border border-red-200"
                                         }`}>
                                         {message.type === "success" ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}
                                         {message.text}
