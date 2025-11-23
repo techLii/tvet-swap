@@ -82,11 +82,15 @@ export async function updateProfile(profileId: string, data: Partial<Profile>) {
     }
 }
 
-export async function getPublicProfiles(filters?: {
-    course?: string;
-    currentCounty?: string;
-    desiredCounty?: string;
-}) {
+export async function getPublicProfiles(
+    page: number = 1,
+    limit: number = 10,
+    filters?: {
+        course?: string;
+        currentCounty?: string;
+        desiredCounty?: string;
+    }
+) {
     try {
         // Use admin client for public access (no auth required)
         const { databases } = await createAdminClient();
@@ -105,16 +109,26 @@ export async function getPublicProfiles(filters?: {
             queries.push(Query.contains("desiredCounties", filters.desiredCounty));
         }
 
+        // Add pagination
+        const offset = (page - 1) * limit;
+        queries.push(Query.limit(limit));
+        queries.push(Query.offset(offset));
+        // Order by creation time descending (newest first)
+        queries.push(Query.orderDesc("$createdAt"));
+
         const response = await databases.listDocuments(
             DATABASE_ID,
             COLLECTION_PROFILES_ID,
             queries
         );
 
-        return response.documents as unknown as Profile[];
+        return {
+            profiles: response.documents as unknown as Profile[],
+            total: response.total
+        };
     } catch (error: any) {
         console.error("Get public profiles error:", error);
-        return [];
+        return { profiles: [], total: 0 };
     }
 }
 

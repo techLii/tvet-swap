@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Profile } from "@/types";
 import { KENYAN_COUNTIES, TVET_COURSES } from "@/lib/constants";
 import { Search, MapPin, Building, Phone, GraduationCap, Calendar, LogOut } from "lucide-react";
@@ -10,13 +11,19 @@ import { logout } from "@/lib/actions/auth";
 interface TrainersClientProps {
     initialProfiles: Profile[];
     user: any;
+    totalCount: number;
+    currentPage: number;
+    limit: number;
 }
 
-export default function TrainersClient({ initialProfiles, user }: TrainersClientProps) {
+export default function TrainersClient({ initialProfiles, user, totalCount, currentPage, limit }: TrainersClientProps) {
+    const router = useRouter();
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCourse, setSelectedCourse] = useState("");
     const [selectedCurrentCounty, setSelectedCurrentCounty] = useState("");
     const [selectedDesiredCounty, setSelectedDesiredCounty] = useState("");
+
+    const totalPages = Math.ceil(totalCount / limit);
 
     const filteredProfiles = useMemo(() => {
         return initialProfiles.filter((profile) => {
@@ -38,6 +45,12 @@ export default function TrainersClient({ initialProfiles, user }: TrainersClient
             return matchesSearch && matchesCourse && matchesCurrentCounty && matchesDesiredCounty;
         });
     }, [initialProfiles, searchTerm, selectedCourse, selectedCurrentCounty, selectedDesiredCounty]);
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            router.push(`/trainers?page=${newPage}`);
+        }
+    };
 
     return (
         <div className="min-h-screen bg-muted/20">
@@ -87,7 +100,7 @@ export default function TrainersClient({ initialProfiles, user }: TrainersClient
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight">Find Trainers</h1>
                         <p className="text-muted-foreground mt-1">
-                            Browse {filteredProfiles.length} trainers open to mutual transfers.
+                            Browse {totalCount} trainers open to mutual transfers.
                         </p>
                     </div>
                 </div>
@@ -290,6 +303,74 @@ export default function TrainersClient({ initialProfiles, user }: TrainersClient
                                     ))}
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                )}
+
+                {/* Pagination Controls */}
+                {totalPages > 1 && (
+                    <div className="flex items-center justify-between border-t border-border bg-card px-4 py-3 sm:px-6 mt-4 rounded-xl shadow-sm">
+                        <div className="flex flex-1 justify-between sm:hidden">
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className="relative inline-flex items-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:pointer-events-none"
+                            >
+                                Previous
+                            </button>
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className="relative ml-3 inline-flex items-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:pointer-events-none"
+                            >
+                                Next
+                            </button>
+                        </div>
+                        <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                            <div>
+                                <p className="text-sm text-muted-foreground">
+                                    Showing <span className="font-medium">{(currentPage - 1) * limit + 1}</span> to{" "}
+                                    <span className="font-medium">{Math.min(currentPage * limit, totalCount)}</span> of{" "}
+                                    <span className="font-medium">{totalCount}</span> results
+                                </p>
+                            </div>
+                            <div>
+                                <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                                    <button
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        disabled={currentPage === 1}
+                                        className="relative inline-flex items-center rounded-l-md px-2 py-2 text-muted-foreground ring-1 ring-inset ring-border hover:bg-accent hover:text-accent-foreground focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:pointer-events-none"
+                                    >
+                                        <span className="sr-only">Previous</span>
+                                        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fillRule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clipRule="evenodd" />
+                                        </svg>
+                                    </button>
+                                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                        <button
+                                            key={page}
+                                            onClick={() => handlePageChange(page)}
+                                            aria-current={page === currentPage ? "page" : undefined}
+                                            className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${page === currentPage
+                                                ? "z-10 bg-primary text-primary-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                                                : "text-foreground ring-1 ring-inset ring-border hover:bg-accent hover:text-accent-foreground focus:z-20 focus:outline-offset-0"
+                                                }`}
+                                        >
+                                            {page}
+                                        </button>
+                                    ))}
+                                    <button
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        disabled={currentPage === totalPages}
+                                        className="relative inline-flex items-center rounded-r-md px-2 py-2 text-muted-foreground ring-1 ring-inset ring-border hover:bg-accent hover:text-accent-foreground focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:pointer-events-none"
+                                    >
+                                        <span className="sr-only">Next</span>
+                                        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 )}
