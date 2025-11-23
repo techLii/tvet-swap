@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Profile } from "@/types";
 import { KENYAN_COUNTIES, TVET_COURSES } from "@/lib/constants";
 import { Search, MapPin, Building, Phone, GraduationCap, Calendar, LogOut } from "lucide-react";
 import { logout } from "@/lib/actions/auth";
+import { useDebouncedCallback } from "use-debounce";
 
 interface TrainersClientProps {
     initialProfiles: Profile[];
@@ -18,37 +19,45 @@ interface TrainersClientProps {
 
 export default function TrainersClient({ initialProfiles, user, totalCount, currentPage, limit }: TrainersClientProps) {
     const router = useRouter();
-    const [searchTerm, setSearchTerm] = useState("");
-    const [selectedCourse, setSelectedCourse] = useState("");
-    const [selectedCurrentCounty, setSelectedCurrentCounty] = useState("");
-    const [selectedDesiredCounty, setSelectedDesiredCounty] = useState("");
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+
+    // Initialize state from URL params
+    const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
+    const [selectedCourse, setSelectedCourse] = useState(searchParams.get("course") || "");
+    const [selectedCurrentCounty, setSelectedCurrentCounty] = useState(searchParams.get("currentCounty") || "");
+    const [selectedDesiredCounty, setSelectedDesiredCounty] = useState(searchParams.get("desiredCounty") || "");
 
     const totalPages = Math.ceil(totalCount / limit);
 
-    const filteredProfiles = useMemo(() => {
-        return initialProfiles.filter((profile) => {
-            const matchesSearch =
-                searchTerm === "" ||
-                profile.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                profile.currentInstitution.toLowerCase().includes(searchTerm.toLowerCase());
+    // Debounced search handler
+    const handleSearch = useDebouncedCallback((term: string) => {
+        const params = new URLSearchParams(searchParams);
+        if (term) {
+            params.set("search", term);
+        } else {
+            params.delete("search");
+        }
+        params.set("page", "1"); // Reset to page 1 on search
+        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    }, 300);
 
-            const matchesCourse =
-                selectedCourse === "" || profile.courseQualified.includes(selectedCourse);
-
-            const matchesCurrentCounty =
-                selectedCurrentCounty === "" || profile.currentCounty === selectedCurrentCounty;
-
-            const matchesDesiredCounty =
-                selectedDesiredCounty === "" ||
-                (profile.desiredCounties && profile.desiredCounties.includes(selectedDesiredCounty));
-
-            return matchesSearch && matchesCourse && matchesCurrentCounty && matchesDesiredCounty;
-        });
-    }, [initialProfiles, searchTerm, selectedCourse, selectedCurrentCounty, selectedDesiredCounty]);
+    const handleFilterChange = (key: string, value: string) => {
+        const params = new URLSearchParams(searchParams);
+        if (value) {
+            params.set(key, value);
+        } else {
+            params.delete(key);
+        }
+        params.set("page", "1"); // Reset to page 1 on filter change
+        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    };
 
     const handlePageChange = (newPage: number) => {
         if (newPage >= 1 && newPage <= totalPages) {
-            router.push(`/trainers?page=${newPage}`);
+            const params = new URLSearchParams(searchParams);
+            params.set("page", newPage.toString());
+            router.push(`${pathname}?${params.toString()}`);
         }
     };
 
@@ -118,7 +127,10 @@ export default function TrainersClient({ initialProfiles, user, totalCount, curr
                                 <input
                                     type="text"
                                     value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    onChange={(e) => {
+                                        setSearchTerm(e.target.value);
+                                        handleSearch(e.target.value);
+                                    }}
                                     placeholder="Name or Institution..."
                                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 pl-9 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 />
@@ -132,7 +144,10 @@ export default function TrainersClient({ initialProfiles, user, totalCount, curr
                             </label>
                             <select
                                 value={selectedCourse}
-                                onChange={(e) => setSelectedCourse(e.target.value)}
+                                onChange={(e) => {
+                                    setSelectedCourse(e.target.value);
+                                    handleFilterChange("course", e.target.value);
+                                }}
                                 className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 <option value="">All Courses</option>
@@ -151,7 +166,10 @@ export default function TrainersClient({ initialProfiles, user, totalCount, curr
                             </label>
                             <select
                                 value={selectedCurrentCounty}
-                                onChange={(e) => setSelectedCurrentCounty(e.target.value)}
+                                onChange={(e) => {
+                                    setSelectedCurrentCounty(e.target.value);
+                                    handleFilterChange("currentCounty", e.target.value);
+                                }}
                                 className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 <option value="">All Counties</option>
@@ -170,7 +188,10 @@ export default function TrainersClient({ initialProfiles, user, totalCount, curr
                             </label>
                             <select
                                 value={selectedDesiredCounty}
-                                onChange={(e) => setSelectedDesiredCounty(e.target.value)}
+                                onChange={(e) => {
+                                    setSelectedDesiredCounty(e.target.value);
+                                    handleFilterChange("desiredCounty", e.target.value);
+                                }}
                                 className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                             >
                                 <option value="">Any County</option>
@@ -192,6 +213,7 @@ export default function TrainersClient({ initialProfiles, user, totalCount, curr
                                     setSelectedCourse("");
                                     setSelectedCurrentCounty("");
                                     setSelectedDesiredCounty("");
+                                    router.replace(pathname);
                                 }}
                                 className="text-sm text-primary hover:underline font-medium"
                             >
@@ -202,7 +224,7 @@ export default function TrainersClient({ initialProfiles, user, totalCount, curr
                 </div>
 
                 {/* Leaderboard List */}
-                {filteredProfiles.length === 0 ? (
+                {initialProfiles.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-12 text-center border rounded-xl border-dashed">
                         <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mb-4">
                             <Search className="w-6 h-6 text-muted-foreground" />
@@ -225,7 +247,7 @@ export default function TrainersClient({ initialProfiles, user, totalCount, curr
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-border">
-                                    {filteredProfiles.map((profile) => (
+                                    {initialProfiles.map((profile) => (
                                         <tr key={profile.$id} className="hover:bg-muted/30 transition-colors">
                                             <td className="px-6 py-4">
                                                 <div className="font-medium text-foreground">{profile.fullName}</div>
@@ -352,8 +374,8 @@ export default function TrainersClient({ initialProfiles, user, totalCount, curr
                                             onClick={() => handlePageChange(page)}
                                             aria-current={page === currentPage ? "page" : undefined}
                                             className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${page === currentPage
-                                                ? "z-10 bg-primary text-primary-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-                                                : "text-foreground ring-1 ring-inset ring-border hover:bg-accent hover:text-accent-foreground focus:z-20 focus:outline-offset-0"
+                                                    ? "z-10 bg-primary text-primary-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                                                    : "text-foreground ring-1 ring-inset ring-border hover:bg-accent hover:text-accent-foreground focus:z-20 focus:outline-offset-0"
                                                 }`}
                                         >
                                             {page}

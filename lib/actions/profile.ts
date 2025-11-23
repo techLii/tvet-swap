@@ -86,6 +86,7 @@ export async function getPublicProfiles(
     page: number = 1,
     limit: number = 10,
     filters?: {
+        search?: string;
         course?: string;
         currentCounty?: string;
         desiredCounty?: string;
@@ -96,6 +97,10 @@ export async function getPublicProfiles(
         const { databases } = await createAdminClient();
 
         const queries = [Query.equal("isOpenToSwap", true)];
+
+        if (filters?.search) {
+            queries.push(Query.search("fullName", filters.search));
+        }
 
         if (filters?.course) {
             queries.push(Query.contains("courseQualified", filters.course));
