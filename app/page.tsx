@@ -2,6 +2,8 @@ import Link from "next/link";
 import { getLoggedInUser } from "@/lib/actions/auth";
 import { redirect } from "next/navigation";
 import { LogIn, Users, ArrowRight } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default async function Home() {
   const user = await getLoggedInUser();
@@ -13,24 +15,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-4 h-16 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Users className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <h1 className="text-xl font-bold tracking-tight">TVET Swap</h1>
-          </div>
-          <Link
-            href="/login"
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
-          >
-            <LogIn className="w-4 h-4 mr-2" />
-            Login
-          </Link>
-        </div>
-      </header>
+      <Navbar />
 
       <main className="flex-1">
         {/* Hero Section */}
@@ -136,13 +121,7 @@ export default async function Home() {
         </section>
       </main>
 
-      <footer className="border-t py-6 md:py-0">
-        <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row mx-auto px-4">
-          <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            &copy; 2024 TVET Swap Kenya. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
