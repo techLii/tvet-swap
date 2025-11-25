@@ -1,4 +1,4 @@
-import { agricultureAndAquacultureDepartment } from "../courses/agricultureAndAquacultureDepartment";
+import { agricultureAndAquacultureDepartmentLevel4 } from "../courses/agricultureAndAquacultureDepartment/indexLevel4";
 import { appliedScience } from "../courses/appliedScience";
 import { buildingAndCivilEngineering } from "../courses/buildingAndCivilEngineering";
 import { businessStudiesDepartment } from "../courses/businessStudiesDepartment";
@@ -13,7 +13,7 @@ import { textileFashionDesignAndCosmetology } from "../courses/textileFashionDes
 export const level4 = {
     name: "Level 4",
     courses: {
-        agricultureAndAquacultureDepartment,
+        agricultureAndAquacultureDepartment: agricultureAndAquacultureDepartmentLevel4,
         appliedScience,
         buildingAndCivilEngineering,
         businessStudiesDepartment,

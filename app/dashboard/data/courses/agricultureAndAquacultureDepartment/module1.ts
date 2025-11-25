@@ -1,117 +1,76 @@
 export const module1 = {
     name: "Module 1",
     units: {
-        // -------------------------
-        // EXISTING AGRIPRENEURSHIP UNITS
-        // -------------------------
         establishAgriEnterprise: {
             name: "ESTABLISH AGRI-ENTERPRISE",
             files: {
-                curriculum:
-                    "/documents/level3/agriculture/module1/establish-agri-enterprise/curriculum.pdf",
-                occupational:
-                    "/documents/level3/agriculture/module1/establish-agri-enterprise/occupational.pdf",
+                curriculum: "/documents/level3/agriculture/module1/establish-agri-enterprise/curriculum.pdf",
+                occupational: "/documents/level3/agriculture/module1/establish-agri-enterprise/occupational.pdf",
             },
         },
-
         keepAgriEnterpriseRecords: {
             name: "KEEP AGRI-ENTERPRISE RECORDS",
             files: {
-                curriculum:
-                    "/documents/level3/agriculture/module1/keep-agri-enterprise-records/curriculum.pdf",
-                occupational:
-                    "/documents/level3/agriculture/module1/keep-agri-enterprise-records/occupational.pdf",
+                curriculum: "/documents/level3/agriculture/module1/keep-agri-enterprise-records/curriculum.pdf",
+                occupational: "/documents/level3/agriculture/module1/keep-agri-enterprise-records/occupational.pdf",
             },
         },
-
         maintainProductAndServiceQuality: {
             name: "MAINTAIN PRODUCT AND SERVICE QUALITY",
             files: {
-                curriculum:
-                    "/documents/level3/agriculture/module1/maintain-product-and-service-quality/curriculum.pdf",
-                occupational:
-                    "/documents/level3/agriculture/module1/maintain-product-and-service-quality/occupational.pdf",
+                curriculum: "/documents/level3/agriculture/module1/maintain-product-and-service-quality/curriculum.pdf",
+                occupational: "/documents/level3/agriculture/module1/maintain-product-and-service-quality/occupational.pdf",
             },
         },
-
         marketAgriEnterpriseProductsAndServices: {
             name: "MARKET AGRI-ENTERPRISE PRODUCTS AND SERVICES",
             files: {
-                curriculum:
-                    "/documents/level3/agriculture/module1/market-agri-enterprise-products-and-services/curriculum.pdf",
-                occupational:
-                    "/documents/level3/agriculture/module1/market-agri-enterprise-products-and-services/occupational.pdf",
+                curriculum: "/documents/level3/agriculture/module1/market-agri-enterprise-products-and-services/curriculum.pdf",
+                occupational: "/documents/level3/agriculture/module1/market-agri-enterprise-products-and-services/occupational.pdf",
             },
         },
-
         operateAgriEnterprise: {
             name: "OPERATE AGRI-ENTERPRISE",
             files: {
-                curriculum:
-                    "/documents/level3/agriculture/module1/operate-agri-enterprise/curriculum.pdf",
-                occupational:
-                    "/documents/level3/agriculture/module1/operate-agri-enterprise/occupational.pdf",
+                curriculum: "/documents/level3/agriculture/module1/operate-agri-enterprise/curriculum.pdf",
+                occupational: "/documents/level3/agriculture/module1/operate-agri-enterprise/occupational.pdf",
             },
         },
-
-        // -------------------------
-        // NEW — AQUACULTURE UNITS
-        // -------------------------
         performAquacultureHousingActivities: {
             name: "PERFORM AQUACULTURE HOUSING ACTIVITIES",
             files: {
-                curriculum:
-                    "/documents/level3/agriculture/module1/perform-aquaculture-housing-activities/curriculum.pdf",
-                occupational:
-                    "/documents/level3/agriculture/module1/perform-aquaculture-housing-activities/occupational.pdf",
+                curriculum: "/documents/level3/agriculture/module1/perform-aquaculture-housing-activities/curriculum.pdf",
+                occupational: "/documents/level3/agriculture/module1/perform-aquaculture-housing-activities/occupational.pdf",
             },
         },
-
         produceTableSizeFish: {
             name: "PRODUCE TABLE SIZE FISH",
             files: {
-                curriculum:
-                    "/documents/level3/agriculture/module1/produce-table-size-fish/curriculum.pdf",
-                occupational:
-                    "/documents/level3/agriculture/module1/produce-table-size-fish/occupational.pdf",
+                curriculum: "/documents/level3/agriculture/module1/produce-table-size-fish/curriculum.pdf",
+                occupational: "/documents/level3/agriculture/module1/produce-table-size-fish/occupational.pdf",
             },
         },
-
-        // -------------------------
-        // NEW — BEE HIVES & EQUIPMENT CONSTRUCTION LEVEL
-        // -------------------------
-        constructBeeHivesAndEquipment: {
+        constructBeeHivesAndBeeEquipment: {
             name: "CONSTRUCT BEE HIVES AND BEE EQUIPMENT",
             files: {
-                curriculum:
-                    "/documents/level3/agriculture/module1/construct-bee-hives-and-equipment/curriculum.pdf",
-                occupational:
-                    "/documents/level3/agriculture/module1/construct-bee-hives-and-equipment/occupational.pdf",
+                curriculum: "/documents/level3/agriculture/module1/construct-bee-hives-and-bee-equipment/curriculum.pdf",
+                occupational: "/documents/level3/agriculture/module1/construct-bee-hives-and-bee-equipment/occupational.pdf",
             },
         },
-
         fabricateBeeEquipmentAccessories: {
             name: "FABRICATE BEE EQUIPMENT ACCESSORIES",
             files: {
-                curriculum:
-                    "/documents/level3/agriculture/module1/fabricate-bee-equipment-accessories/curriculum.pdf",
-                occupational:
-                    "/documents/level3/agriculture/module1/fabricate-bee-equipment-accessories/occupational.pdf",
+                curriculum: "/documents/level3/agriculture/module1/fabricate-bee-equipment-accessories/curriculum.pdf",
+                occupational: "/documents/level3/agriculture/module1/fabricate-bee-equipment-accessories/occupational.pdf",
             },
         },
-
-        industrialTrainingBee: {
+        industrialTraining: {
             name: "INDUSTRIAL TRAINING",
             files: {
-                curriculum:
-                    "/documents/level3/agriculture/module1/industrial-training-bee/curriculum.pdf",
-                occupational:
-                    "/documents/level3/agriculture/module1/industrial-training-bee/occupational.pdf",
+                curriculum: "/documents/level3/agriculture/module1/industrial-training/curriculum.pdf",
+                occupational: "/documents/level3/agriculture/module1/industrial-training/occupational.pdf",
             },
         },
-        // -------------------------
-        // NEW UNITS
-        // -------------------------
         feedDairyAnimals: {
             name: "FEED DAIRY ANIMALS",
             files: {
@@ -210,11 +169,11 @@ export const module1 = {
                 occupational: "/documents/level3/agriculture/module1/construct-pig-unit/occupational.pdf",
             },
         },
-        industryTraining2: {
+        industryTraining: {
             name: "INDUSTRY TRAINING",
             files: {
-                curriculum: "/documents/level3/agriculture/module1/industry-training-2/curriculum.pdf",
-                occupational: "/documents/level3/agriculture/module1/industry-training-2/occupational.pdf",
+                curriculum: "/documents/level3/agriculture/module1/industry-training/curriculum.pdf",
+                occupational: "/documents/level3/agriculture/module1/industry-training/occupational.pdf",
             },
         },
         producePigFeeds: {
@@ -266,11 +225,11 @@ export const module1 = {
                 occupational: "/documents/level3/agriculture/module1/manage-kienyeji-chicken-health-and-welfare/occupational.pdf",
             },
         },
-        constructPoultryStructures2: {
+        constructPoultryStructures: {
             name: "CONSTRUCT POULTRY STRUCTURES",
             files: {
-                curriculum: "/documents/level3/agriculture/module1/construct-poultry-structures-2/curriculum.pdf",
-                occupational: "/documents/level3/agriculture/module1/construct-poultry-structures-2/occupational.pdf",
+                curriculum: "/documents/level3/agriculture/module1/construct-poultry-structures/curriculum.pdf",
+                occupational: "/documents/level3/agriculture/module1/construct-poultry-structures/occupational.pdf",
             },
         },
         industrialTraining: {
@@ -286,6 +245,6 @@ export const module1 = {
                 curriculum: "/documents/level3/agriculture/module1/manage-poultry-brooding/curriculum.pdf",
                 occupational: "/documents/level3/agriculture/module1/manage-poultry-brooding/occupational.pdf",
             },
-        },
-    },
+        }
+    }
 };

@@ -19,7 +19,8 @@ import {
     Settings,
     Bell,
     LogOut,
-    Users
+    Users,
+    FileText
 } from "lucide-react";
 import DocumentDownloads from "./DocumentDownloads";
 import { useRouter } from "next/navigation";
@@ -121,14 +122,23 @@ export default function DashboardClient({ user, profile }: DashboardClientProps)
                             <Users className="w-4 h-4" />
                             Find Trainers
                         </Link>
+                        <Link
+                            href="/vacancies"
+                            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-2"
+                        >
+                            <Briefcase className="w-4 h-4" />
+                            Vacancies
+                        </Link>
+                        <Link
+                            href="/blog"
+                            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-2"
+                        >
+                            <FileText className="w-4 h-4" />
+                            Blog
+                        </Link>
                         <div className="h-6 w-px bg-border hidden sm:block"></div>
                         <div className="flex items-center gap-3">
-                            <div className="text-sm text-muted-foreground hidden md:block">
-                                <span className="font-medium text-foreground">{profile.fullName}</span>
-                            </div>
-                            <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-secondary-foreground font-medium">
-                                {profile.fullName.charAt(0)}
-                            </div>
+
                             <button
                                 onClick={async () => {
                                     await logout();
