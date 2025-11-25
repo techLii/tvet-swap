@@ -12,10 +12,10 @@ export default function Footer() {
                             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                                 <Users className="w-5 h-5 text-primary-foreground" />
                             </div>
-                            <h3 className="text-xl font-bold tracking-tight">TVET Swap</h3>
+                            <h3 className="text-xl font-bold tracking-tight">Kenya Technical Trainers</h3>
                         </div>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                            The official mutual transfer platform for TVET trainers in Kenya. Connect, swap, and grow your career.
+                            The premier community for Technical Trainers in Kenya. Connecting professionals, sharing opportunities, and supporting career growth.
                         </p>
                     </div>
 
@@ -39,12 +39,12 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#pricing" className="hover:text-primary transition-colors">
-                                    Pricing
+                                <Link href="/vacancies" className="hover:text-primary transition-colors">
+                                    Vacancies
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#blog" className="hover:text-primary transition-colors">
+                                <Link href="/blog" className="hover:text-primary transition-colors">
                                     Blog
                                 </Link>
                             </li>
@@ -62,7 +62,7 @@ export default function Footer() {
                         <ul className="space-y-3 text-sm text-muted-foreground">
                             <li className="flex items-start gap-3">
                                 <Mail className="w-4 h-4 mt-0.5 text-primary" />
-                                <span>support@tvetswap.co.ke</span>
+                                <span>support@kenyatechnicaltrainers.co.ke</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <Phone className="w-4 h-4 mt-0.5 text-primary" />
@@ -109,7 +109,7 @@ export default function Footer() {
                 </div>
 
                 <div className="border-t border-border/40 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-                    <p>&copy; {new Date().getFullYear()} TVET Swap Kenya. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} Kenya Technical Trainers. All rights reserved.</p>
                     <div className="flex gap-6">
                         <Link href="#" className="hover:text-primary transition-colors">
                             Privacy Policy

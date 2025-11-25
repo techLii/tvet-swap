@@ -40,7 +40,7 @@ export default function LoginPage() {
                             <LogIn className="w-6 h-6 text-primary" />
                         </div>
                         <h1 className="text-2xl font-bold tracking-tight">Welcome Back</h1>
-                        <p className="text-muted-foreground mt-2 text-sm">Login to access the TVET Swap platform</p>
+                        <p className="text-muted-foreground mt-2 text-sm">Login to Kenya Technical Trainers</p>
                     </div>
 
                     {error && (

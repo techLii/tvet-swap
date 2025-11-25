@@ -13,17 +13,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TVET Swap",
-  description: "Find mutual transfer opportunities.",
+  title: "Kenya Technical Trainers",
+  description: "The premier community for Technical Trainers in Kenya.",
   openGraph: {
-    title: "TVET Swap",
-    description: "Find mutual transfer opportunities.",
+    title: "Kenya Technical Trainers",
+    description: "The premier community for Technical Trainers in Kenya.",
     images: ["/swap.png"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "TVET Swap",
-    description: "Find mutual transfer opportunities.",
+    title: "Kenya Technical Trainers",
+    description: "The premier community for Technical Trainers in Kenya.",
     images: ["/swap.png"],
   },
   icons: {

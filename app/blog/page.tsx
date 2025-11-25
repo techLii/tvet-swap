@@ -54,9 +54,9 @@ export default function BlogPage() {
 
             <main className="flex-1 container mx-auto px-4 py-12">
                 <div className="max-w-2xl mx-auto text-center mb-12">
-                    <h1 className="text-4xl font-bold tracking-tight mb-4">Our Blog</h1>
+                    <h1 className="text-4xl font-bold tracking-tight mb-4">Knowledge Hub</h1>
                     <p className="text-muted-foreground text-lg">
-                        Latest updates, success stories, and tips for TVET trainers.
+                        Articles, insights, and stories from the Kenya Technical Trainers community.
                     </p>
                 </div>
 

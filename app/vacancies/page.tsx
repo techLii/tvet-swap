@@ -54,9 +54,9 @@ export default function VacanciesPage() {
 
             <main className="flex-1 container mx-auto px-4 py-12">
                 <div className="max-w-2xl mx-auto text-center mb-12">
-                    <h1 className="text-4xl font-bold tracking-tight mb-4">Career Opportunities</h1>
+                    <h1 className="text-4xl font-bold tracking-tight mb-4">Community Job Board</h1>
                     <p className="text-muted-foreground text-lg">
-                        Explore open positions for Technical Trainers across various institutions.
+                        Explore open positions curated for Technical Trainers across various institutions.
                     </p>
                 </div>
 
