@@ -22,9 +22,18 @@ export default async function TrainersPage({ searchParams }: { searchParams: Pro
     // Fetch paginated profiles
     const { profiles, total } = await getPublicProfiles(page, limit, filters);
 
+    let displayedProfiles = profiles;
+
+    if (!user) {
+        displayedProfiles = profiles.map(profile => ({
+            ...profile,
+            fullName: profile.fullName.split(' ').map(part => part[0] + '*'.repeat(Math.max(0, part.length - 1))).join(' ')
+        }));
+    }
+
     return (
         <TrainersClient
-            initialProfiles={profiles}
+            initialProfiles={displayedProfiles}
             user={user}
             totalCount={total}
             currentPage={page}
