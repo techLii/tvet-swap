@@ -64,7 +64,7 @@ export const module1 = {
                 occupational: "/documents/level3/agriculture/module1/fabricate-bee-equipment-accessories/occupational.pdf",
             },
         },
-        industrialTraining: {
+        industrialTrainingApiculture: {
             name: "INDUSTRIAL TRAINING",
             files: {
                 curriculum: "/documents/level3/agriculture/module1/industrial-training/curriculum.pdf",
@@ -127,7 +127,7 @@ export const module1 = {
                 occupational: "/documents/level3/agriculture/module1/produce-vegetable-crops-in-protected-environment/occupational.pdf",
             },
         },
-        industryTraining: {
+        industryTrainingHorticulture: {
             name: "INDUSTRY TRAINING",
             files: {
                 curriculum: "/documents/level3/agriculture/module1/industry-training/curriculum.pdf",
@@ -169,7 +169,7 @@ export const module1 = {
                 occupational: "/documents/level3/agriculture/module1/construct-pig-unit/occupational.pdf",
             },
         },
-        industryTraining: {
+        industryTrainingPigFarming: {
             name: "INDUSTRY TRAINING",
             files: {
                 curriculum: "/documents/level3/agriculture/module1/industry-training/curriculum.pdf",
@@ -225,14 +225,8 @@ export const module1 = {
                 occupational: "/documents/level3/agriculture/module1/manage-kienyeji-chicken-health-and-welfare/occupational.pdf",
             },
         },
-        constructPoultryStructures: {
-            name: "CONSTRUCT POULTRY STRUCTURES",
-            files: {
-                curriculum: "/documents/level3/agriculture/module1/construct-poultry-structures/curriculum.pdf",
-                occupational: "/documents/level3/agriculture/module1/construct-poultry-structures/occupational.pdf",
-            },
-        },
-        industrialTraining: {
+
+        industrialTrainingPoultry: {
             name: "INDUSTRIAL TRAINING",
             files: {
                 curriculum: "/documents/level3/agriculture/module1/industrial-training/curriculum.pdf",
