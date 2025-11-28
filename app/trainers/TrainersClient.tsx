@@ -257,9 +257,9 @@ export default function TrainersClient({ initialProfiles, user, totalCount, curr
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-wrap gap-1">
-                                                    {profile.courseQualified.slice(0, 2).map((course) => (
+                                                    {profile.courseQualified.slice(0, 2).map((course, index) => (
                                                         <span
-                                                            key={course}
+                                                            key={`${course}-${index}`}
                                                             className="inline-flex items-center rounded-md bg-secondary px-2 py-0.5 text-xs font-medium text-secondary-foreground"
                                                         >
                                                             {course}
@@ -275,9 +275,9 @@ export default function TrainersClient({ initialProfiles, user, totalCount, curr
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-wrap gap-1">
                                                     {profile.desiredCounties && profile.desiredCounties.length > 0 ? (
-                                                        profile.desiredCounties.slice(0, 2).map((county) => (
+                                                        profile.desiredCounties.slice(0, 2).map((county, index) => (
                                                             <span
-                                                                key={county}
+                                                                key={`${county}-${index}`}
                                                                 className="inline-flex items-center rounded-md bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
                                                             >
                                                                 {county}
@@ -374,8 +374,8 @@ export default function TrainersClient({ initialProfiles, user, totalCount, curr
                                             onClick={() => handlePageChange(page)}
                                             aria-current={page === currentPage ? "page" : undefined}
                                             className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${page === currentPage
-                                                    ? "z-10 bg-primary text-primary-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-                                                    : "text-foreground ring-1 ring-inset ring-border hover:bg-accent hover:text-accent-foreground focus:z-20 focus:outline-offset-0"
+                                                ? "z-10 bg-primary text-primary-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                                                : "text-foreground ring-1 ring-inset ring-border hover:bg-accent hover:text-accent-foreground focus:z-20 focus:outline-offset-0"
                                                 }`}
                                         >
                                             {page}
