@@ -32,6 +32,8 @@ export const metadata: Metadata = {
 };
 
 
+import Footer from "@/components/Footer";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -43,6 +45,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground`}
       >
         {children}
+        <Footer />
       </body>
     </html>
   );

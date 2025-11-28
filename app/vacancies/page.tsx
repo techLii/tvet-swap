@@ -3,7 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+
 import { Briefcase, MapPin, Clock, Calendar, ArrowRight } from "lucide-react";
 
 interface Vacancy {
@@ -112,7 +112,7 @@ export default function VacanciesPage() {
                 )}
             </main>
 
-            <Footer />
+
         </div>
     );
 }

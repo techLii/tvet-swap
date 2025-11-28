@@ -3,7 +3,7 @@ import { getLoggedInUser } from "@/lib/actions/auth";
 import { redirect } from "next/navigation";
 import { LogIn, Users, ArrowRight, BookOpen, Briefcase, RefreshCw } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+
 
 export default async function Home() {
   const user = await getLoggedInUser();
@@ -121,7 +121,7 @@ export default async function Home() {
         </section>
       </main>
 
-      <Footer />
+
     </div>
   );
 }

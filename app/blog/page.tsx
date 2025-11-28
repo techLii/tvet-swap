@@ -3,7 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+
 import { Calendar, User, ArrowRight } from "lucide-react";
 
 interface BlogPost {
@@ -113,7 +113,7 @@ export default function BlogPage() {
                 )}
             </main>
 
-            <Footer />
+
         </div>
     );
 }

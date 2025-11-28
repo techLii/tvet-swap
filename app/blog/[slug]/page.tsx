@@ -5,7 +5,6 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { ArrowLeft, Calendar, User, Tag } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { notFound } from "next/navigation";
 
 interface Frontmatter {
@@ -93,7 +92,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
                 </article>
             </main>
 
-            <Footer />
+
         </div>
     );
 }

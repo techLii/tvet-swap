@@ -5,7 +5,6 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { ArrowLeft, Briefcase, MapPin, Clock, Calendar, User, GraduationCap, Building } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { notFound } from "next/navigation";
 
 interface Frontmatter {
@@ -144,7 +143,7 @@ export default async function VacancyPage({ params }: { params: Promise<{ slug: 
                 </div>
             </main>
 
-            <Footer />
+
         </div>
     );
 }
