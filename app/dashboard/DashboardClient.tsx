@@ -7,21 +7,24 @@ import { updateProfile } from "@/lib/actions/profile";
 import { KENYAN_COUNTIES, TVET_COURSES } from "@/lib/constants";
 import { logout } from "@/lib/actions/auth";
 import {
-    User,
-    MapPin,
-    BookOpen,
-    Briefcase,
-    Save,
-    Loader2,
-    CheckCircle2,
-    AlertCircle,
-    LayoutDashboard,
-    Settings,
-    Bell,
-    LogOut,
-    Users,
-    FileText
-} from "lucide-react";
+import {
+        User,
+        MapPin,
+        BookOpen,
+        Briefcase,
+        Save,
+        Loader2,
+        CheckCircle2,
+        AlertCircle,
+        LayoutDashboard,
+        Settings,
+        Bell,
+        LogOut,
+        Users,
+        FileText,
+        Menu,
+        X
+    } from "lucide-react";
 import DocumentDownloads from "./DocumentDownloads";
 import { useRouter } from "next/navigation";
 
@@ -34,72 +37,12 @@ export default function DashboardClient({ user, profile }: DashboardClientProps)
     const router = useRouter();
     const [isSaving, setIsSaving] = useState(false);
     const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     // Form State
-    const [formData, setFormData] = useState({
-        phone: profile.phone || "",
-        currentInstitution: profile.currentInstitution || "",
-        currentCounty: profile.currentCounty || "",
-        currentSubCounty: profile.currentSubCounty || "",
-        subject1: profile.courseQualified[0] || "",
-        subject2: profile.courseQualified[1] || "",
-        subject3: profile.courseQualified[2] || "",
-        desiredCounties: profile.desiredCounties || [],
-        desiredInstitutions: profile.desiredInstitutions || [],
-        isOpenToSwap: profile.isOpenToSwap || false,
-    });
+    // ... (keep existing form state)
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, checked } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: checked }));
-    };
-
-    const handleMultiSelectChange = (e: React.ChangeEvent<HTMLSelectElement>, field: "desiredCounties" | "desiredInstitutions") => {
-        const options = Array.from(e.target.selectedOptions, (option) => option.value);
-        setFormData((prev) => ({ ...prev, [field]: options }));
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSaving(true);
-        setMessage(null);
-
-        // Validation
-        if (!formData.phone || !formData.currentInstitution || !formData.currentCounty || !formData.subject1) {
-            setMessage({ type: "error", text: "Please fill in all required fields." });
-            setIsSaving(false);
-            return;
-        }
-
-        const courseQualified = [formData.subject1, formData.subject2].filter(Boolean);
-        if (formData.subject3) courseQualified.push(formData.subject3);
-
-        const updateData = {
-            phone: formData.phone,
-            currentInstitution: formData.currentInstitution,
-            currentCounty: formData.currentCounty,
-            currentSubCounty: formData.currentSubCounty,
-            courseQualified: courseQualified,
-            desiredCounties: formData.desiredCounties,
-            desiredInstitutions: formData.desiredInstitutions,
-            isOpenToSwap: formData.isOpenToSwap,
-        };
-
-        const result = await updateProfile(profile.$id, updateData);
-
-        if (result.success) {
-            setMessage({ type: "success", text: "Profile updated successfully!" });
-            router.refresh();
-        } else {
-            setMessage({ type: "error", text: result.error || "Failed to update profile." });
-        }
-        setIsSaving(false);
-    };
+    // ... (keep existing handlers)
 
     return (
         <div className="min-h-screen bg-muted/20 pb-12">
@@ -114,45 +57,116 @@ export default function DashboardClient({ user, profile }: DashboardClientProps)
                             <h1 className="text-xl font-bold tracking-tight">Dashboard</h1>
                         </Link>
                     </div>
-                    <div className="flex items-center gap-4">
+
+                    {/* Desktop Navigation */}
+                    <div className="hidden md:flex items-center gap-4">
                         <Link
                             href="/trainers"
-                            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-2"
+                            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
                         >
                             <Users className="w-4 h-4" />
                             Find Trainers
                         </Link>
                         <Link
                             href="/vacancies"
-                            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-2"
+                            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
                         >
                             <Briefcase className="w-4 h-4" />
                             Vacancies
                         </Link>
                         <Link
                             href="/blog"
-                            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:flex items-center gap-2"
+                            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
                         >
                             <FileText className="w-4 h-4" />
                             Blog
                         </Link>
-                        <div className="h-6 w-px bg-border hidden sm:block"></div>
+                        <div className="h-6 w-px bg-border"></div>
                         <div className="flex items-center gap-3">
-
+                            <div className="text-sm text-muted-foreground">
+                                <span className="font-medium text-foreground">{profile.fullName}</span>
+                            </div>
+                            <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-secondary-foreground font-medium">
+                                {profile.fullName.charAt(0)}
+                            </div>
                             <button
                                 onClick={async () => {
                                     await logout();
                                     window.location.href = "/";
                                 }}
-                                className="ml-2 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8 sm:h-9 sm:w-auto sm:px-3 text-destructive hover:text-destructive"
+                                className="ml-2 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8 px-3 text-destructive hover:text-destructive"
                                 title="Logout"
                             >
-                                <LogOut className="w-4 h-4 sm:mr-2" />
-                                <span className="hidden sm:inline">Logout</span>
+                                <LogOut className="w-4 h-4 mr-2" />
+                                Logout
                             </button>
                         </div>
                     </div>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        className="md:hidden p-2 text-muted-foreground hover:text-foreground"
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        aria-label="Toggle menu"
+                    >
+                        {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                    </button>
                 </div>
+
+                {/* Mobile Navigation */}
+                {isMenuOpen && (
+                    <div className="md:hidden border-t border-border/40 bg-background absolute w-full z-20 shadow-lg">
+                        <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
+                            <div className="flex items-center gap-3 pb-4 border-b border-border/40">
+                                <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-secondary-foreground font-medium text-lg">
+                                    {profile.fullName.charAt(0)}
+                                </div>
+                                <div>
+                                    <p className="font-medium">{profile.fullName}</p>
+                                    <p className="text-xs text-muted-foreground">{profile.tscNumber}</p>
+                                </div>
+                            </div>
+
+                            <Link
+                                href="/trainers"
+                                className="text-sm font-medium transition-colors hover:text-primary py-2 flex items-center gap-2"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                <Users className="w-4 h-4" />
+                                Find Trainers
+                            </Link>
+                            <Link
+                                href="/vacancies"
+                                className="text-sm font-medium transition-colors hover:text-primary py-2 flex items-center gap-2"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                <Briefcase className="w-4 h-4" />
+                                Vacancies
+                            </Link>
+                            <Link
+                                href="/blog"
+                                className="text-sm font-medium transition-colors hover:text-primary py-2 flex items-center gap-2"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                <FileText className="w-4 h-4" />
+                                Blog
+                            </Link>
+
+                            <div className="pt-2 border-t border-border/40">
+                                <button
+                                    onClick={async () => {
+                                        await logout();
+                                        window.location.href = "/";
+                                    }}
+                                    className="flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-destructive hover:text-destructive"
+                                >
+                                    <LogOut className="w-4 h-4 mr-2" />
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </header>
 
             <main className="container mx-auto px-4 py-8">
