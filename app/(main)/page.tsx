@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getLoggedInUser } from "@/lib/actions/auth";
 import { redirect } from "next/navigation";
 import { LogIn, Users, ArrowRight, BookOpen, Briefcase, RefreshCw } from "lucide-react";
-import Navbar from "@/components/Navbar";
+
 
 
 export default async function Home() {
@@ -15,7 +15,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Navbar />
+
 
       <main className="flex-1">
         {/* Hero Section */}

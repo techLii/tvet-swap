@@ -26,7 +26,7 @@ export default function Navbar() {
                     <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                         <Users className="w-5 h-5 text-primary-foreground" />
                     </div>
-                    <h1 className="text-xl font-bold tracking-tight">Kenya Technical Trainers</h1>
+                    <h1 className="text-xl font-bold tracking-tight">trainershub.online</h1>
                 </div>
 
                 {/* Desktop Navigation */}
@@ -44,13 +44,7 @@ export default function Navbar() {
 
                 {/* Desktop Actions */}
                 <div className="hidden md:flex items-center gap-4">
-                    <Link
-                        href="/login"
-                        className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
-                    >
-                        <LogIn className="w-4 h-4 mr-2" />
-                        Login
-                    </Link>
+
                 </div>
 
                 {/* Mobile Menu Button */}

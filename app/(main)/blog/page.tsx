@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
+
 
 import { Calendar, User, ArrowRight } from "lucide-react";
 
@@ -17,7 +17,7 @@ interface BlogPost {
 }
 
 function getBlogPosts(): BlogPost[] {
-    const postsDirectory = path.join(process.cwd(), "app/blog/posts");
+    const postsDirectory = path.join(process.cwd(), "app/(main)/blog/posts");
 
     if (!fs.existsSync(postsDirectory)) {
         return [];
@@ -50,7 +50,7 @@ export default function BlogPage() {
 
     return (
         <div className="min-h-screen bg-background flex flex-col">
-            <Navbar />
+
 
             <main className="flex-1 container mx-auto px-4 py-12">
                 <div className="max-w-2xl mx-auto text-center mb-12">

@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { ArrowLeft, Briefcase, MapPin, Clock, Calendar, User, GraduationCap, Building } from "lucide-react";
-import Navbar from "@/components/Navbar";
+
 import { notFound } from "next/navigation";
 
 interface Frontmatter {
@@ -20,7 +20,7 @@ interface Frontmatter {
 }
 
 export async function generateStaticParams() {
-    const postsDirectory = path.join(process.cwd(), "app/vacancies/posts");
+    const postsDirectory = path.join(process.cwd(), "app/(main)/vacancies/posts");
 
     if (!fs.existsSync(postsDirectory)) {
         return [];
@@ -35,7 +35,7 @@ export async function generateStaticParams() {
 
 export default async function VacancyPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
-    const postsDirectory = path.join(process.cwd(), "app/vacancies/posts");
+    const postsDirectory = path.join(process.cwd(), "app/(main)/vacancies/posts");
     const filePath = path.join(postsDirectory, `${slug}.mdx`);
 
     if (!fs.existsSync(filePath)) {
@@ -48,7 +48,7 @@ export default async function VacancyPage({ params }: { params: Promise<{ slug: 
 
     return (
         <div className="min-h-screen bg-background flex flex-col">
-            <Navbar />
+
 
             <main className="flex-1 container mx-auto px-4 py-12 max-w-4xl">
                 <Link
