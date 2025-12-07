@@ -20,7 +20,4 @@ export default async function DashboardPage() {
     }
 
     return <DashboardClient user={user} profile={profile} />;
-
-    console.log("Dashboard: Profile loaded successfully:", profile.$id);
-    return <DashboardClient user={user} profile={profile} />;
 }
