@@ -10,13 +10,10 @@ export default async function DashboardPage() {
         redirect("/login");
     }
 
-    console.log("Dashboard: Fetching profile for user:", user.$id);
     const profile = await getProfile(user.$id);
 
     if (!profile) {
-        console.warn("Dashboard: Profile not found for user:", user.$id);
-    } else {
-        console.log("Dashboard: Profile loaded successfully:", profile.$id);
+        // Log locally if needed, but avoid production noise or extensive logging
     }
 
     return <DashboardClient user={user} profile={profile} />;

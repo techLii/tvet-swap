@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { documentsData } from "./documentsData";
+import { documentsData } from "../data/documentsData";
 import { Download, FileText, ChevronRight, FolderOpen } from "lucide-react";
 
 export default function DocumentDownloads() {

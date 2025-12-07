@@ -1,7 +1,7 @@
 "use client";
 
 import { Profile } from "@/types";
-import DocumentDownloads from "./DocumentDownloads";
+import DocumentDownloads from "./components/DocumentDownloads";
 import DashboardHeader from "./components/DashboardHeader";
 import ProfileCard from "./components/ProfileCard";
 import NotificationsCard from "./components/NotificationsCard";

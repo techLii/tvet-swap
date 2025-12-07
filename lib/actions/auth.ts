@@ -6,39 +6,7 @@ import { cookies } from "next/headers";
 import { createAdminClient, createSessionClient } from "@/lib/appwrite";
 import { LoginFormData, RegisterFormData } from "@/types";
 
-export async function register(data: RegisterFormData) {
-    try {
-        const { users, account } = await createAdminClient();
 
-        // Create user
-        await users.create(
-            ID.unique(),
-            data.email,
-            undefined, // phone
-            data.password,
-            data.name
-        );
-
-        // Create session
-        const session = await account.createEmailPasswordSession(
-            data.email,
-            data.password
-        );
-
-        const cookieStore = await cookies();
-        cookieStore.set("session", session.secret, {
-            path: "/",
-            httpOnly: true,
-            sameSite: "strict",
-            secure: true,
-        });
-
-        return { success: true };
-    } catch (error: any) {
-        console.error("Registration error:", error);
-        return { success: false, error: error.message };
-    }
-}
 
 export async function login(data: LoginFormData) {
     try {
