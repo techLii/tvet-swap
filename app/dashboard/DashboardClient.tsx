@@ -10,7 +10,7 @@ import { useTransferPreferences } from "./hooks/useTransferPreferences";
 
 interface DashboardClientProps {
     user: any;
-    profile: Profile;
+    profile: Profile | null;
 }
 
 export default function DashboardClient({ user, profile }: DashboardClientProps) {

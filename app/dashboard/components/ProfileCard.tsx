@@ -4,11 +4,26 @@ import { Profile } from "@/types";
 import { Briefcase, MapPin, BookOpen } from "lucide-react";
 
 interface ProfileCardProps {
-    profile: Profile;
+    profile: Profile | null;
     isOpenToSwap: boolean;
 }
 
 export default function ProfileCard({ profile, isOpenToSwap }: ProfileCardProps) {
+    if (!profile) {
+        return (
+            <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden p-6">
+                <div className="flex items-center gap-4 mb-4">
+                    <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
+                        ?
+                    </div>
+                    <div>
+                        <h2 className="text-lg font-semibold">No Profile</h2>
+                        <p className="text-sm text-muted-foreground">Please create a profile</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
     return (
         <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
             <div className="p-6">

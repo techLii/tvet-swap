@@ -5,22 +5,22 @@ import { Profile } from "@/types";
 import { updateProfile } from "@/lib/actions/profile";
 import { useRouter } from "next/navigation";
 
-export function useTransferPreferences(profile: Profile) {
+export function useTransferPreferences(profile: Profile | null) {
     const router = useRouter();
     const [isSaving, setIsSaving] = useState(false);
     const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
     const [formData, setFormData] = useState({
-        phone: profile.phone || "",
-        currentInstitution: profile.currentInstitution || "",
-        currentCounty: profile.currentCounty || "",
-        currentSubCounty: profile.currentSubCounty || "",
-        subject1: profile.courseQualified[0] || "",
-        subject2: profile.courseQualified[1] || "",
-        subject3: profile.courseQualified[2] || "",
-        desiredCounties: profile.desiredCounties || [],
-        desiredInstitutions: profile.desiredInstitutions || [],
-        isOpenToSwap: profile.isOpenToSwap || false,
+        phone: profile?.phone || "",
+        currentInstitution: profile?.currentInstitution || "",
+        currentCounty: profile?.currentCounty || "",
+        currentSubCounty: profile?.currentSubCounty || "",
+        subject1: profile?.courseQualified?.[0] || "",
+        subject2: profile?.courseQualified?.[1] || "",
+        subject3: profile?.courseQualified?.[2] || "",
+        desiredCounties: profile?.desiredCounties || [],
+        desiredInstitutions: profile?.desiredInstitutions || [],
+        isOpenToSwap: profile?.isOpenToSwap || false,
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -46,6 +46,12 @@ export function useTransferPreferences(profile: Profile) {
         // Validation
         if (!formData.phone || !formData.currentInstitution || !formData.currentCounty || !formData.subject1) {
             setMessage({ type: "error", text: "Please fill in all required fields." });
+            setIsSaving(false);
+            return;
+        }
+
+        if (!profile) {
+            setMessage({ type: "error", text: "Profile not found. Cannot update." });
             setIsSaving(false);
             return;
         }

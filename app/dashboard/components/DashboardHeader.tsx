@@ -16,7 +16,7 @@ import { logout } from "@/lib/actions/auth";
 
 interface DashboardHeaderProps {
     user: any;
-    profile: Profile;
+    profile: Profile | null;
 }
 
 export default function DashboardHeader({ user, profile }: DashboardHeaderProps) {
@@ -60,10 +60,10 @@ export default function DashboardHeader({ user, profile }: DashboardHeaderProps)
                     <div className="h-6 w-px bg-border"></div>
                     <div className="flex items-center gap-3">
                         <div className="text-sm text-muted-foreground">
-                            <span className="font-medium text-foreground">{profile.fullName}</span>
+                            <span className="font-medium text-foreground">{profile?.fullName || "User"}</span>
                         </div>
                         <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-secondary-foreground font-medium">
-                            {profile.fullName.charAt(0)}
+                            {profile?.fullName?.charAt(0) || "U"}
                         </div>
                         <button
                             onClick={async () => {
@@ -95,11 +95,11 @@ export default function DashboardHeader({ user, profile }: DashboardHeaderProps)
                     <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
                         <div className="flex items-center gap-3 pb-4 border-b border-border/40">
                             <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-secondary-foreground font-medium text-lg">
-                                {profile.fullName.charAt(0)}
+                                {profile?.fullName?.charAt(0) || "U"}
                             </div>
                             <div>
-                                <p className="font-medium">{profile.fullName}</p>
-                                <p className="text-xs text-muted-foreground">{profile.tscNumber}</p>
+                                <p className="font-medium">{profile?.fullName || "User"}</p>
+                                <p className="text-xs text-muted-foreground">{profile?.tscNumber || "No ID"}</p>
                             </div>
                         </div>
 
