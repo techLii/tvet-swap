@@ -10,8 +10,13 @@ export default async function DocumentDownloadPage() {
     }
 
     return (
-        <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold mb-6">Document Download Centre</h2>
+        <div className="h-full">
+            <div className="mb-8">
+                <h2 className="text-2xl font-bold tracking-tight">Document Download Centre</h2>
+                <p className="text-muted-foreground mt-1">
+                    Access and download curriculum modules and standards.
+                </p>
+            </div>
             <DocumentDownloads />
         </div>
     );

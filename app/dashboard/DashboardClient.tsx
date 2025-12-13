@@ -10,8 +10,13 @@ interface DashboardClientProps {
 
 export default function DashboardClient({ user, profile }: DashboardClientProps) {
     return (
-        <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold mb-6">Overview</h2>
+        <div className="h-full">
+            <div className="mb-8">
+                <h2 className="text-2xl font-bold tracking-tight">Overview</h2>
+                <p className="text-muted-foreground mt-1">
+                    Manage your profile and view your account status.
+                </p>
+            </div>
 
             {/* Left Column: Profile Summary & Status */}
             <div className="space-y-6">

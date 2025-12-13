@@ -20,8 +20,13 @@ export default function TransferPreferencesClient({ profile }: TransferPreferenc
     } = useTransferPreferences(profile);
 
     return (
-        <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold mb-6">Transfer Preferences</h2>
+        <div className="h-full">
+            <div className="mb-8">
+                <h2 className="text-2xl font-bold tracking-tight">Transfer Preferences</h2>
+                <p className="text-muted-foreground mt-1">
+                    Update your preferred transfer locations and settings.
+                </p>
+            </div>
             <div className="bg-card rounded-lg border shadow-sm p-6">
                 <TransferPreferencesForm
                     formData={formData}
