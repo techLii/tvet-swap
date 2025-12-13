@@ -4,7 +4,6 @@ import { Profile } from "@/types";
 import DocumentDownloads from "./components/DocumentDownloads";
 import DashboardHeader from "./components/DashboardHeader";
 import ProfileCard from "./components/ProfileCard";
-import NotificationsCard from "./components/NotificationsCard";
 import TransferPreferencesForm from "./components/TransferPreferencesForm";
 import { useTransferPreferences } from "./hooks/useTransferPreferences";
 
@@ -33,12 +32,10 @@ export default function DashboardClient({ user, profile }: DashboardClientProps)
                     {/* Left Column: Profile Summary & Status */}
                     <div className="space-y-6">
                         <ProfileCard profile={profile} isOpenToSwap={formData.isOpenToSwap} />
-                        <NotificationsCard />
-                        <DocumentDownloads />
                     </div>
 
                     {/* Right Column: Edit Form */}
-                    <div className="lg:col-span-2">
+                    <div className="lg:col-span-2 space-y-6">
                         <TransferPreferencesForm
                             formData={formData}
                             isSaving={isSaving}
@@ -48,6 +45,7 @@ export default function DashboardClient({ user, profile }: DashboardClientProps)
                             handleMultiSelectChange={handleMultiSelectChange}
                             handleSubmit={handleSubmit}
                         />
+                        <DocumentDownloads />
                     </div>
                 </div>
             </main>
