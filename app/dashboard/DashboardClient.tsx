@@ -1,11 +1,7 @@
 "use client";
 
 import { Profile } from "@/types";
-import DocumentDownloads from "./components/DocumentDownloads";
-import DashboardHeader from "./components/DashboardHeader";
 import ProfileCard from "./components/ProfileCard";
-import TransferPreferencesForm from "./components/TransferPreferencesForm";
-import { useTransferPreferences } from "./hooks/useTransferPreferences";
 
 interface DashboardClientProps {
     user: any;
@@ -13,42 +9,14 @@ interface DashboardClientProps {
 }
 
 export default function DashboardClient({ user, profile }: DashboardClientProps) {
-    const {
-        formData,
-        isSaving,
-        message,
-        handleChange,
-        handleCheckboxChange,
-        handleMultiSelectChange,
-        handleSubmit
-    } = useTransferPreferences(profile);
-
     return (
-        <div className="min-h-screen bg-muted/20 pb-12">
-            <DashboardHeader user={user} profile={profile} />
+        <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold mb-6">Overview</h2>
 
-            <main className="container mx-auto px-4 py-8">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Left Column: Profile Summary & Status */}
-                    <div className="space-y-6">
-                        <ProfileCard profile={profile} isOpenToSwap={formData.isOpenToSwap} />
-                    </div>
-
-                    {/* Right Column: Edit Form */}
-                    <div className="lg:col-span-2 space-y-6">
-                        <TransferPreferencesForm
-                            formData={formData}
-                            isSaving={isSaving}
-                            message={message}
-                            handleChange={handleChange}
-                            handleCheckboxChange={handleCheckboxChange}
-                            handleMultiSelectChange={handleMultiSelectChange}
-                            handleSubmit={handleSubmit}
-                        />
-                        <DocumentDownloads />
-                    </div>
-                </div>
-            </main>
+            {/* Left Column: Profile Summary & Status */}
+            <div className="space-y-6">
+                <ProfileCard profile={profile} isOpenToSwap={profile?.isOpenToSwap || false} />
+            </div>
         </div>
     );
 }

@@ -37,14 +37,14 @@ export default function DashboardHeader({ user, profile }: DashboardHeaderProps)
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center gap-4">
                     <Link
-                        href="/trainers"
+                        href="/dashboard/find-trainers"
                         className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
                     >
                         <Users className="w-4 h-4" />
                         Find Trainers
                     </Link>
                     <Link
-                        href="/vacancies"
+                        href="/dashboard/vacancies"
                         className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
                     >
                         <Briefcase className="w-4 h-4" />
@@ -104,7 +104,15 @@ export default function DashboardHeader({ user, profile }: DashboardHeaderProps)
                         </div>
 
                         <Link
-                            href="/trainers"
+                            href="/dashboard"
+                            className="text-sm font-medium transition-colors hover:text-primary py-2 flex items-center gap-2"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            <LayoutDashboard className="w-4 h-4" />
+                            Overview
+                        </Link>
+                        <Link
+                            href="/dashboard/find-trainers"
                             className="text-sm font-medium transition-colors hover:text-primary py-2 flex items-center gap-2"
                             onClick={() => setIsMenuOpen(false)}
                         >
@@ -112,12 +120,28 @@ export default function DashboardHeader({ user, profile }: DashboardHeaderProps)
                             Find Trainers
                         </Link>
                         <Link
-                            href="/vacancies"
+                            href="/dashboard/vacancies"
                             className="text-sm font-medium transition-colors hover:text-primary py-2 flex items-center gap-2"
                             onClick={() => setIsMenuOpen(false)}
                         >
                             <Briefcase className="w-4 h-4" />
                             Vacancies
+                        </Link>
+                        <Link
+                            href="/dashboard/transfer-preferences"
+                            className="text-sm font-medium transition-colors hover:text-primary py-2 flex items-center gap-2"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            <Users className="w-4 h-4" />
+                            Transfer Preferences
+                        </Link>
+                        <Link
+                            href="/dashboard/document-download-centre"
+                            className="text-sm font-medium transition-colors hover:text-primary py-2 flex items-center gap-2"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            <FileText className="w-4 h-4" />
+                            Downloads
                         </Link>
                         <Link
                             href="/blog"
