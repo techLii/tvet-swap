@@ -31,13 +31,19 @@ export default async function FindTrainersPage({ searchParams }: { searchParams:
 
     return (
         <div className="h-full">
-            <h2 className="text-2xl font-bold mb-6">Find Trainers</h2>
+            <div className="mb-8">
+                <h2 className="text-2xl font-bold tracking-tight">Find Trainers</h2>
+                <p className="text-muted-foreground mt-1">
+                    Browse trainers open to mutual transfers.
+                </p>
+            </div>
             <TrainersClient
                 initialProfiles={displayedProfiles}
                 user={user}
                 totalCount={total}
                 currentPage={page}
                 limit={limit}
+                hideLayout={true}
             />
         </div>
     );

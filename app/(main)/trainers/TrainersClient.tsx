@@ -15,9 +15,10 @@ interface TrainersClientProps {
     totalCount: number;
     currentPage: number;
     limit: number;
+    hideLayout?: boolean;
 }
 
-export default function TrainersClient({ initialProfiles, user, totalCount, currentPage, limit }: TrainersClientProps) {
+export default function TrainersClient({ initialProfiles, user, totalCount, currentPage, limit, hideLayout }: TrainersClientProps) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
@@ -62,57 +63,61 @@ export default function TrainersClient({ initialProfiles, user, totalCount, curr
     };
 
     return (
-        <div className="min-h-screen bg-muted/20">
-            {/* Header */}
-            <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="container mx-auto px-4 h-16 flex justify-between items-center">
-                    <Link href="/" className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                            <Building className="w-5 h-5 text-primary-foreground" />
-                        </div>
-                        <span className="text-xl font-bold tracking-tight">TVET Swap</span>
-                    </Link>
-                    <div className="flex gap-4 items-center">
-                        {user ? (
-                            <>
+        <div className={hideLayout ? "h-full" : "min-h-screen bg-muted/20"}>
+            {/* Header - Only shown if not hiding layout */}
+            {!hideLayout && (
+                <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+                    <div className="container mx-auto px-4 h-16 flex justify-between items-center">
+                        <Link href="/" className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                                <Building className="w-5 h-5 text-primary-foreground" />
+                            </div>
+                            <span className="text-xl font-bold tracking-tight">TVET Swap</span>
+                        </Link>
+                        <div className="flex gap-4 items-center">
+                            {user ? (
+                                <>
+                                    <Link
+                                        href="/dashboard"
+                                        className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                    >
+                                        Dashboard
+                                    </Link>
+                                    <button
+                                        onClick={async () => {
+                                            await logout();
+                                            window.location.href = "/";
+                                        }}
+                                        className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 text-destructive hover:text-destructive"
+                                    >
+                                        <LogOut className="w-4 h-4 mr-2" />
+                                        Logout
+                                    </button>
+                                </>
+                            ) : (
                                 <Link
-                                    href="/dashboard"
-                                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                    href="/login"
+                                    className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
                                 >
-                                    Dashboard
+                                    Login
                                 </Link>
-                                <button
-                                    onClick={async () => {
-                                        await logout();
-                                        window.location.href = "/";
-                                    }}
-                                    className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 text-destructive hover:text-destructive"
-                                >
-                                    <LogOut className="w-4 h-4 mr-2" />
-                                    Logout
-                                </button>
-                            </>
-                        ) : (
-                            <Link
-                                href="/login"
-                                className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
-                            >
-                                Login
-                            </Link>
-                        )}
+                            )}
+                        </div>
                     </div>
-                </div>
-            </header>
+                </header>
+            )}
 
-            <main className="container mx-auto px-4 py-8">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight">Find Trainers</h1>
-                        <p className="text-muted-foreground mt-1">
-                            Browse {totalCount} trainers open to mutual transfers.
-                        </p>
+            <main className={hideLayout ? "" : "container mx-auto px-4 py-8"}>
+                {!hideLayout && (
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                        <div>
+                            <h1 className="text-3xl font-bold tracking-tight">Find Trainers</h1>
+                            <p className="text-muted-foreground mt-1">
+                                Browse {totalCount} trainers open to mutual transfers.
+                            </p>
+                        </div>
                     </div>
-                </div>
+                )}
 
                 {/* Filters */}
                 <div className="bg-card rounded-xl border border-border shadow-sm p-6 mb-8">
