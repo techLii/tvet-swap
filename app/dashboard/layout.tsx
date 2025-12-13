@@ -1,8 +1,8 @@
 import Sidebar from "./components/Sidebar";
-import DashboardHeader from "./components/DashboardHeader";
 import { getLoggedInUser } from "@/lib/actions/auth";
 import { getProfile } from "@/lib/actions/profile";
 import { redirect } from "next/navigation";
+import MobileHeader from "./components/MobileHeader";
 
 export default async function DashboardLayout({
     children,
@@ -19,9 +19,9 @@ export default async function DashboardLayout({
 
     return (
         <div className="flex min-h-screen w-full bg-muted/20">
-            <Sidebar />
+            <Sidebar user={user} profile={profile} />
             <div className="flex flex-col flex-1 min-w-0">
-                <DashboardHeader user={user} profile={profile} />
+                <MobileHeader user={user} profile={profile} />
                 <main className="flex-1 overflow-y-auto p-4 md:p-6">
                     {children}
                 </main>
