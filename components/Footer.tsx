@@ -39,7 +39,7 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/vacancies" className="hover:text-primary transition-colors">
+                                <Link href="/dashboard/vacancies" className="hover:text-primary transition-colors">
                                     Vacancies
                                 </Link>
                             </li>

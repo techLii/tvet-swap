@@ -20,7 +20,7 @@ interface Frontmatter {
 }
 
 export async function generateStaticParams() {
-    const postsDirectory = path.join(process.cwd(), "app/(main)/vacancies/posts");
+    const postsDirectory = path.join(process.cwd(), "app/dashboard/vacancies/posts");
 
     if (!fs.existsSync(postsDirectory)) {
         return [];
@@ -35,7 +35,7 @@ export async function generateStaticParams() {
 
 export default async function VacancyPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
-    const postsDirectory = path.join(process.cwd(), "app/(main)/vacancies/posts");
+    const postsDirectory = path.join(process.cwd(), "app/dashboard/vacancies/posts");
     const filePath = path.join(postsDirectory, `${slug}.mdx`);
 
     if (!fs.existsSync(filePath)) {
@@ -52,8 +52,8 @@ export default async function VacancyPage({ params }: { params: Promise<{ slug: 
 
             <main className="flex-1 container mx-auto px-4 py-12 max-w-4xl">
                 <Link
-                    href="/vacancies"
-                    className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-8 transition-colors"
+                    href="/dashboard/vacancies"
+                    className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
                 >
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Vacancies

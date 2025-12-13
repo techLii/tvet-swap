@@ -15,7 +15,7 @@ interface Vacancy {
 }
 
 function getVacancies(): Vacancy[] {
-    const postsDirectory = path.join(process.cwd(), "app/(main)/vacancies/posts");
+    const postsDirectory = path.join(process.cwd(), "app/dashboard/vacancies/posts");
 
     if (!fs.existsSync(postsDirectory)) {
         return [];
@@ -56,53 +56,58 @@ export default function VacanciesDashboardPage() {
             </div>
 
             {vacancies.length === 0 ? (
-                <div className="text-center py-12">
+                <div className="text-center py-12 border rounded-xl border-dashed">
                     <p className="text-muted-foreground">No vacancies found at the moment.</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {vacancies.map((vacancy) => (
-                        <article
-                            key={vacancy.slug}
-                            className="flex flex-col bg-card border border-border/40 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-                        >
-                            <div className="p-6 flex flex-col h-full">
-                                <div className="flex items-center gap-2 text-xs font-medium text-primary mb-3 bg-primary/10 w-fit px-2 py-1 rounded-full">
-                                    <Briefcase className="w-3 h-3" />
-                                    {vacancy.department}
-                                </div>
-
-                                <h2 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
-                                    <Link href={`/vacancies/${vacancy.slug}`}>
-                                        {vacancy.title}
-                                    </Link>
-                                </h2>
-
-                                <div className="space-y-2 mb-6 flex-1">
-                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                        <MapPin className="w-4 h-4" />
-                                        <span>{vacancy.duty_station}</span>
-                                    </div>
-                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                        <Clock className="w-4 h-4" />
-                                        <span>{vacancy.employment_type}</span>
-                                    </div>
-                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                        <Calendar className="w-4 h-4" />
-                                        <span>Deadline: {vacancy.application_deadline}</span>
-                                    </div>
-                                </div>
-
-                                <Link
-                                    href={`/vacancies/${vacancy.slug}`}
-                                    className="inline-flex items-center justify-center w-full rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
-                                >
-                                    View Details
-                                    <ArrowRight className="w-4 h-4 ml-2" />
-                                </Link>
-                            </div>
-                        </article>
-                    ))}
+                <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left">
+                            <thead className="text-xs text-muted-foreground uppercase bg-muted/50 border-b border-border">
+                                <tr>
+                                    <th className="px-6 py-3 font-medium">Category</th>
+                                    <th className="px-6 py-3 font-medium">Position</th>
+                                    <th className="px-6 py-3 font-medium">Institution</th>
+                                    <th className="px-6 py-3 font-medium">Employment Type</th>
+                                    <th className="px-6 py-3 font-medium">Application Deadline</th>
+                                    <th className="px-6 py-3 font-medium text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-border">
+                                {vacancies.map((vacancy) => (
+                                    <tr key={vacancy.slug} className="hover:bg-muted/30 transition-colors">
+                                        <td className="px-6 py-4">
+                                            <span className="inline-flex items-center rounded-md bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
+                                                {vacancy.department}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 font-medium text-foreground">
+                                            {vacancy.title}
+                                        </td>
+                                        <td className="px-6 py-4 text-muted-foreground">
+                                            {vacancy.duty_station}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <span className="inline-flex items-center rounded-md bg-secondary px-2 py-0.5 text-xs font-medium text-secondary-foreground">
+                                                {vacancy.employment_type}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 text-muted-foreground">
+                                            {vacancy.application_deadline}
+                                        </td>
+                                        <td className="px-6 py-4 text-right">
+                                            <Link
+                                                href={`/dashboard/vacancies/${vacancy.slug}`}
+                                                className="inline-flex items-center justify-center rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 px-3 py-1"
+                                            >
+                                                View
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             )}
         </div>
