@@ -18,6 +18,7 @@ const navigation = [
     { name: "Home", href: "/dashboard", icon: Home },
     { name: "Find Trainers", href: "/dashboard/find-trainers", icon: Users },
     { name: "Vacancies", href: "/dashboard/vacancies", icon: Briefcase },
+    { name: "Blog", href: "/dashboard/blog", icon: FileText },
     { name: "Transfer Preferences", href: "/dashboard/transfer-preferences", icon: RefreshCw },
     { name: "Document Download Centre", href: "/dashboard/document-download-centre", icon: FileText },
 ];

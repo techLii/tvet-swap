@@ -17,7 +17,7 @@ interface Frontmatter {
 }
 
 export async function generateStaticParams() {
-    const postsDirectory = path.join(process.cwd(), "app/(main)/blog/posts");
+    const postsDirectory = path.join(process.cwd(), "app/dashboard/blog/posts");
 
     if (!fs.existsSync(postsDirectory)) {
         return [];
@@ -32,7 +32,7 @@ export async function generateStaticParams() {
 
 export default async function BlogPost({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
-    const postsDirectory = path.join(process.cwd(), "app/(main)/blog/posts");
+    const postsDirectory = path.join(process.cwd(), "app/dashboard/blog/posts");
     const filePath = path.join(postsDirectory, `${slug}.mdx`);
 
     if (!fs.existsSync(filePath)) {
@@ -44,16 +44,16 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     const frontmatter = data as Frontmatter;
 
     return (
-        <div className="min-h-screen bg-background flex flex-col">
+        <div className="h-full">
 
 
-            <main className="flex-1 container mx-auto px-4 py-12 max-w-4xl">
+            <main className="flex-1 max-w-4xl">
                 <Link
-                    href="/"
-                    className="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-8 transition-colors"
+                    href="/dashboard/blog"
+                    className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
                 >
                     <ArrowLeft className="w-4 h-4 mr-2" />
-                    Back to Home
+                    Back to Blog
                 </Link>
 
                 <article className="prose prose-slate dark:prose-invert lg:prose-xl max-w-none">
