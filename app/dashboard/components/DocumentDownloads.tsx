@@ -1,156 +1,203 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { documentsData } from "../data/documentsData";
-import { Download, FileText, ChevronRight, FolderOpen } from "lucide-react";
+import { Download, FileText, ChevronRight, ChevronDown, Folder, FolderOpen, File } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export default function DocumentDownloads() {
-    const [selectedLevel, setSelectedLevel] = useState<string>("");
-    const [selectedCourse, setSelectedCourse] = useState<string>("");
-    const [selectedModule, setSelectedModule] = useState<string>("");
-    const [selectedUnit, setSelectedUnit] = useState<string>("");
+// --- Types ---
 
-    // Helper to get current data based on selection
-    const getLevelData = () => (documentsData as any)[selectedLevel];
-    const getCourseData = () => getLevelData()?.courses?.[selectedCourse];
-    const getModuleData = () => getCourseData()?.modules?.[selectedModule];
-    const getUnitData = () => getModuleData()?.units?.[selectedUnit];
+interface FileSystemNode {
+    id: string;
+    name: string;
+    type: "folder" | "file";
+    url?: string;
+    children?: FileSystemNode[];
+}
 
-    const handleLevelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedLevel(e.target.value);
-        setSelectedCourse("");
-        setSelectedModule("");
-        setSelectedUnit("");
+// --- Data Transformation ---
+
+function transformDataToTree(data: any): FileSystemNode[] {
+    const nodes: FileSystemNode[] = [];
+
+    // Level
+    Object.keys(data).forEach((levelKey) => {
+        const levelData = data[levelKey];
+        const levelNode: FileSystemNode = {
+            id: levelKey,
+            name: levelData.name || levelKey,
+            type: "folder",
+            children: [],
+        };
+
+        // Course
+        if (levelData.courses) {
+            Object.keys(levelData.courses).forEach((courseKey) => {
+                const courseData = levelData.courses[courseKey];
+                const courseNode: FileSystemNode = {
+                    id: `${levelKey}-${courseKey}`,
+                    name: courseData.name || courseKey,
+                    type: "folder",
+                    children: [],
+                };
+
+                // Module
+                if (courseData.modules) {
+                    Object.keys(courseData.modules).forEach((moduleKey) => {
+                        const moduleData = courseData.modules[moduleKey];
+                        const moduleNode: FileSystemNode = {
+                            id: `${levelKey}-${courseKey}-${moduleKey}`,
+                            name: moduleData.name || moduleKey,
+                            type: "folder",
+                            children: [],
+                        };
+
+                        // Unit
+                        if (moduleData.units) {
+                            Object.keys(moduleData.units).forEach((unitKey) => {
+                                const unitData = moduleData.units[unitKey];
+                                const unitNode: FileSystemNode = {
+                                    id: `${levelKey}-${courseKey}-${moduleKey}-${unitKey}`,
+                                    name: unitData.name || unitKey,
+                                    type: "folder",
+                                    children: [],
+                                };
+
+                                // Files
+                                if (unitData.files) {
+                                    if (unitData.files.curriculum) {
+                                        unitNode.children?.push({
+                                            id: `${unitNode.id}-curriculum`,
+                                            name: "Curriculum",
+                                            type: "file",
+                                            url: unitData.files.curriculum,
+                                        });
+                                    }
+                                    if (unitData.files.occupational) {
+                                        unitNode.children?.push({
+                                            id: `${unitNode.id}-occupational`,
+                                            name: "Occupational Standards",
+                                            type: "file",
+                                            url: unitData.files.occupational,
+                                        });
+                                    }
+                                }
+
+                                moduleNode.children?.push(unitNode);
+                            });
+                        }
+                        courseNode.children?.push(moduleNode);
+                    });
+                }
+                levelNode.children?.push(courseNode);
+            });
+        }
+        nodes.push(levelNode);
+    });
+
+    return nodes;
+}
+
+// --- Components ---
+
+interface FileNodeItemProps {
+    node: FileSystemNode;
+    level: number;
+}
+
+function FileNodeItem({ node, level }: FileNodeItemProps) {
+    const [isOpen, setIsOpen] = useState(false);
+    const hasChildren = node.children && node.children.length > 0;
+
+    const toggleOpen = () => {
+        if (node.type === "folder") {
+            setIsOpen(!isOpen);
+        }
     };
-
-    const handleCourseChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedCourse(e.target.value);
-        setSelectedModule("");
-        setSelectedUnit("");
-    };
-
-    const handleModuleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedModule(e.target.value);
-        setSelectedUnit("");
-    };
-
-    const handleUnitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedUnit(e.target.value);
-    };
-
-    const currentUnit = getUnitData();
 
     return (
-        <div className="bg-card rounded-xl border border-border shadow-sm p-6 mt-6">
-            <h3 className="font-semibold mb-4 flex items-center gap-2">
-                <FolderOpen className="w-5 h-5 text-primary" />
-                Document Downloads
-            </h3>
-
-            <div className="space-y-4">
-                {/* Level Selection */}
-                <div className="space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">Level</label>
-                    <select
-                        className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        value={selectedLevel}
-                        onChange={handleLevelChange}
-                    >
-                        <option value="">Select Level</option>
-                        {Object.keys(documentsData).map((key) => (
-                            <option key={key} value={key}>
-                                {(documentsData as any)[key].name}
-                            </option>
-                        ))}
-                    </select>
+        <div>
+            <div
+                className={cn(
+                    "flex items-center gap-2 py-2 px-2 rounded-md transition-colors select-none cursor-pointer",
+                    "hover:bg-muted/50",
+                    level > 0 && "ml-4"
+                )}
+                style={{ paddingLeft: `${level * 12 + 8}px` }}
+                onClick={toggleOpen}
+            >
+                {/* Icon & Arrow */}
+                <div className="flex items-center gap-1.5 min-w-[24px]">
+                    {node.type === "folder" && (
+                        <div className="text-muted-foreground">
+                            {isOpen ? (
+                                <ChevronDown className="w-4 h-4" />
+                            ) : (
+                                <ChevronRight className="w-4 h-4" />
+                            )}
+                        </div>
+                    )}
                 </div>
 
-                {/* Course Selection */}
-                {selectedLevel && (
-                    <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
-                        <label className="text-sm font-medium text-muted-foreground">Course</label>
-                        <select
-                            className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            value={selectedCourse}
-                            onChange={handleCourseChange}
-                        >
-                            <option value="">Select Course</option>
-                            {Object.keys(getLevelData()?.courses || {}).map((key) => (
-                                <option key={key} value={key}>
-                                    {getLevelData().courses[key].name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                )}
+                {/* Folder/File Icon */}
+                <div className={cn("text-muted-foreground", isOpen ? "text-primary" : "")}>
+                    {node.type === "folder" ? (
+                        isOpen ? (
+                            <FolderOpen className="w-4 h-4" />
+                        ) : (
+                            <Folder className="w-4 h-4" />
+                        )
+                    ) : (
+                        <FileText className="w-4 h-4" />
+                    )}
+                </div>
 
-                {/* Module Selection */}
-                {selectedCourse && (
-                    <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
-                        <label className="text-sm font-medium text-muted-foreground">Module</label>
-                        <select
-                            className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            value={selectedModule}
-                            onChange={handleModuleChange}
-                        >
-                            <option value="">Select Module</option>
-                            {Object.keys(getCourseData()?.modules || {}).map((key) => (
-                                <option key={key} value={key}>
-                                    {getCourseData().modules[key].name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                )}
+                {/* Name */}
+                <span className="text-sm font-medium truncate flex-1">{node.name}</span>
 
-                {/* Unit Selection */}
-                {selectedModule && (
-                    <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
-                        <label className="text-sm font-medium text-muted-foreground">Unit</label>
-                        <select
-                            className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            value={selectedUnit}
-                            onChange={handleUnitChange}
-                        >
-                            <option value="">Select Unit</option>
-                            {Object.keys(getModuleData()?.units || {}).map((key) => (
-                                <option key={key} value={key}>
-                                    {getModuleData().units[key].name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                {/* Download Button (if file) */}
+                {node.type === "file" && node.url && (
+                    <a
+                        href={node.url}
+                        download
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-1.5 text-muted-foreground hover:text-primary hover:bg-muted rounded-md transition-colors"
+                        title="Download"
+                    >
+                        <Download className="w-4 h-4" />
+                    </a>
                 )}
+            </div>
 
-                {/* Download Buttons */}
-                {currentUnit && (
-                    <div className="pt-4 space-y-3 animate-in fade-in slide-in-from-top-4 duration-500">
-                        <div className="p-4 bg-muted/30 rounded-lg border border-border">
-                            <h4 className="font-medium text-sm mb-3 flex items-center gap-2">
-                                <FileText className="w-4 h-4 text-primary" />
-                                Available Documents
-                            </h4>
-                            <div className="grid grid-cols-1 gap-3">
-                                <a
-                                    href={currentUnit.files.curriculum}
-                                    download
-                                    className="flex items-center justify-between p-3 bg-background border border-input rounded-md hover:bg-accent hover:text-accent-foreground transition-colors group"
-                                >
-                                    <span className="text-sm font-medium">Curriculum</span>
-                                    <Download className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                                </a>
-                                <a
-                                    href={currentUnit.files.occupational}
-                                    download
-                                    className="flex items-center justify-between p-3 bg-background border border-input rounded-md hover:bg-accent hover:text-accent-foreground transition-colors group"
-                                >
-                                    <span className="text-sm font-medium">Occupational Standards</span>
-                                    <Download className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                )}
+            {/* Children (Lazy Render Visuals) */}
+            {isOpen && hasChildren && (
+                <div className="border-l border-border/40 ml-[15px]">
+                    {node.children?.map((child) => (
+                        <FileNodeItem key={child.id} node={child} level={level + 1} />
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default function DocumentDownloads() {
+    const fileTree = useMemo(() => transformDataToTree(documentsData), []);
+
+    return (
+        <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+            <div className="p-4 border-b bg-muted/30">
+                <h3 className="font-semibold flex items-center gap-2">
+                    <Folder className="w-5 h-5 text-primary" />
+                    File Explorer
+                </h3>
+            </div>
+            <div className="p-2 overflow-x-auto">
+                <div className="min-w-[300px]">
+                    {fileTree.map((node) => (
+                        <FileNodeItem key={node.id} node={node} level={0} />
+                    ))}
+                </div>
             </div>
         </div>
     );
