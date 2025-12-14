@@ -1,5 +1,6 @@
 import DocumentDownloads from "../components/DocumentDownloads";
 import { getLoggedInUser } from "@/lib/actions/auth";
+import { getDocumentsTree } from "@/lib/actions/documents";
 import { redirect } from "next/navigation";
 
 export default async function DocumentDownloadPage() {
@@ -9,6 +10,8 @@ export default async function DocumentDownloadPage() {
         redirect("/login");
     }
 
+    const documentsTree = await getDocumentsTree();
+
     return (
         <div className="h-full">
             <div className="mb-8">
@@ -17,7 +20,7 @@ export default async function DocumentDownloadPage() {
                     Access and download curriculum modules and standards.
                 </p>
             </div>
-            <DocumentDownloads />
+            <DocumentDownloads initialData={documentsTree} />
         </div>
     );
 }

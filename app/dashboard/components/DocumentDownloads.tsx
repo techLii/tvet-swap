@@ -1,102 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { documentsData } from "../data/documentsData";
-import { Download, FileText, ChevronRight, ChevronDown, Folder, FolderOpen, File } from "lucide-react";
+import { useState } from "react";
+import { Download, FileText, ChevronRight, ChevronDown, Folder, FolderOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-// --- Types ---
-
-interface FileSystemNode {
-    id: string;
-    name: string;
-    type: "folder" | "file";
-    url?: string;
-    children?: FileSystemNode[];
-}
-
-// --- Data Transformation ---
-
-function transformDataToTree(data: any): FileSystemNode[] {
-    const nodes: FileSystemNode[] = [];
-
-    // Level
-    Object.keys(data).forEach((levelKey) => {
-        const levelData = data[levelKey];
-        const levelNode: FileSystemNode = {
-            id: levelKey,
-            name: levelData.name || levelKey,
-            type: "folder",
-            children: [],
-        };
-
-        // Course
-        if (levelData.courses) {
-            Object.keys(levelData.courses).forEach((courseKey) => {
-                const courseData = levelData.courses[courseKey];
-                const courseNode: FileSystemNode = {
-                    id: `${levelKey}-${courseKey}`,
-                    name: courseData.name || courseKey,
-                    type: "folder",
-                    children: [],
-                };
-
-                // Module
-                if (courseData.modules) {
-                    Object.keys(courseData.modules).forEach((moduleKey) => {
-                        const moduleData = courseData.modules[moduleKey];
-                        const moduleNode: FileSystemNode = {
-                            id: `${levelKey}-${courseKey}-${moduleKey}`,
-                            name: moduleData.name || moduleKey,
-                            type: "folder",
-                            children: [],
-                        };
-
-                        // Unit
-                        if (moduleData.units) {
-                            Object.keys(moduleData.units).forEach((unitKey) => {
-                                const unitData = moduleData.units[unitKey];
-                                const unitNode: FileSystemNode = {
-                                    id: `${levelKey}-${courseKey}-${moduleKey}-${unitKey}`,
-                                    name: unitData.name || unitKey,
-                                    type: "folder",
-                                    children: [],
-                                };
-
-                                // Files
-                                if (unitData.files) {
-                                    if (unitData.files.curriculum) {
-                                        unitNode.children?.push({
-                                            id: `${unitNode.id}-curriculum`,
-                                            name: "Curriculum",
-                                            type: "file",
-                                            url: unitData.files.curriculum,
-                                        });
-                                    }
-                                    if (unitData.files.occupational) {
-                                        unitNode.children?.push({
-                                            id: `${unitNode.id}-occupational`,
-                                            name: "Occupational Standards",
-                                            type: "file",
-                                            url: unitData.files.occupational,
-                                        });
-                                    }
-                                }
-
-                                moduleNode.children?.push(unitNode);
-                            });
-                        }
-                        courseNode.children?.push(moduleNode);
-                    });
-                }
-                levelNode.children?.push(courseNode);
-            });
-        }
-        nodes.push(levelNode);
-    });
-
-    return nodes;
-}
+import type { FileSystemNode } from "@/lib/actions/documents";
 
 // --- Components ---
 
@@ -181,9 +88,11 @@ function FileNodeItem({ node, level }: FileNodeItemProps) {
     );
 }
 
-export default function DocumentDownloads() {
-    const fileTree = useMemo(() => transformDataToTree(documentsData), []);
+interface DocumentDownloadsProps {
+    initialData: FileSystemNode[];
+}
 
+export default function DocumentDownloads({ initialData }: DocumentDownloadsProps) {
     return (
         <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
             <div className="p-4 border-b bg-muted/30">
@@ -194,9 +103,15 @@ export default function DocumentDownloads() {
             </div>
             <div className="p-2 overflow-x-auto">
                 <div className="min-w-[300px]">
-                    {fileTree.map((node) => (
-                        <FileNodeItem key={node.id} node={node} level={0} />
-                    ))}
+                    {initialData.length === 0 ? (
+                        <div className="p-8 text-center text-muted-foreground text-sm">
+                            No documents found.
+                        </div>
+                    ) : (
+                        initialData.map((node) => (
+                            <FileNodeItem key={node.id} node={node} level={0} />
+                        ))
+                    )}
                 </div>
             </div>
         </div>
